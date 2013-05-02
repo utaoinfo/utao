@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="{$description}" />
+    <meta name="keywords" content="{$keywords}" />
+    <title>列表页面</title>	
+    <link href="css/style.css" rel="stylesheet" type="text/css" />	
+	<link href="css/nivo-slider.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link href="css/style-ie.css" rel="stylesheet" type="text/css" /><![endif]-->
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="header">
+	<div class="container">
+		<h1 style="margin:0;">
+			<a href="/" title="utao">
+				<img style="width:120p;height:50px;" src="img/logo.gif" alt="utao" />
+			</a>
+		</h1>
+		<div class="z_b_wrap">
+            <div class="z_txtwrap">
+                <span class="z_s_l"></span>
+                <span class="z_s_r"></span>
+                <span class="text">
+                    <span name="inputLabel" class="z_input_lab" style="display:none;">输入想查询的词</span>
+                    <input id="playAddr" value="" placeholder="输入想查询的词" name="" type="text">
+                </span>
+            </div>
+            <a class="z_btn_bf" id="playBtn" href="javascript:;" title="播放" onclick="return false;">搜索</a>
+        </div>
+	</div>
+</div><!-- // end #header -->
+<div class="nav">
+	<div class="container">
+		{if:$this->guide_list}
+		<ul class="menu fl">
+			<li><a href="/" title="首页" >首页</a></li>
+			{foreach:items=$this->guide_list}	
+			<li ><a href="{$item['link']}" title="{$item['name']}">{$item['name']}</a></li>
+			{/foreach}
+		</ul>
+		{/if}
+	</div>
+</div><!-- // end nav -->
+
+<div class="main">
+	<div class="container">
+		{if:$cname}
+			<h2><b>{$cname}</b></h3>
+		{/if}
+		<div id="catBox" class="catschoose">
+			
+			<ul class="operation_area">
+				<li>
+					{if:$brands && count($brands)}
+					<dl id="brands" class="clearfix">
+						<dt>品牌：</dt>
+						<dd>
+							<dl>
+								<dt><strong><a href="/?controller=frontend&action=glist&cid={$cid}&bid=-1&prid={$prid}" class="active">全部</a></strong></dt>
+								
+								{foreach:items=$brands item=$brand}
+								<dd><a href="/?controller=frontend&action=glist&cid={$cid}&bid={$brand['id']}&prid={$prid}" >{$brand['name']}</a></dd>
+								{/foreach}
+								
+							</dl>
+						</dd>
+					</dl>
+					{/if}
+					{if:$price_range && count($price_range)}
+					<dl id="price" class="clearfix">
+						<dt>价格：</dt>
+						<dd>
+							<dl>
+								<dt><strong><a class="active" href="/?controller=frontend&action=glist&cid={$cid}&bid={$bid}&prid=-1" >全部</a></strong></dt>
+								
+								{foreach:items=$price_range item=$range}
+								
+								{if:$key!=0}
+								{set:$currentRange= $range-1;}
+								<dd><a href="/?controller=frontend&action=glist&cid={$cid}&bid={$bid}&prid={$key}" >{$lastRange}-{$currentRange}</a></dd>
+								{/if}
+								{set:$lastRange=$range}
+								{/foreach}
+							</dl>
+						</dd>
+					</dl>
+					{/if}
+				</li>
+	        </ul>
+		</div>
+
+
+		{if:count($goods_list)}
+		<div  class="row clearfix">
+			<ul class="sort clearfix">	
+				<li class="tabitem"><a href="#" class="on" target="_self">最近上架</a></li>	
+				<li class="tabitem"><a class="active" href="#" target="_self">最受好评</a></li>	
+			</ul>
+			{foreach:items=$goods_list item=$goods}
+			<div class="column" {if:$key%4==3}style="margin-right:0;"{/if}>
+				<div class="image">
+					<a href="{$goods['url']}" title="{$goods['name']}" target="_blank">
+						<img src="{$goods['list_img']}" alt="{$goods['name']}" />
+					</a>
+				</div>
+				<p class="pro_price">
+					<strong class="new_price">￥{$goods['sell_price']}</strong>
+					原价：<span class="old_price">{$goods['market_price']}</span>
+				</p>
+				<p><a href="{$goods['url']}" title="{$goods['name']}" target="_blank">{echo:IString::substr($goods['name'],14,'....')}</a></p>
+				<p class="sub_tip">{$goods['notes']}</p>
+			</div>
+			{/foreach}
+		</div>
+		{else:}
+		<div style="height:300px;line-height:300px;text-align:center;">
+			{if:$prid}
+			该价格范围下没有商品，建议您修改搜索条件</a>
+			{else:}
+			该分类下没有商品，您可以去 <a href="/" target="_self" title="首页看看"><b>首页看看~</b></a>
+			{/if}
+		</div>
+		{/if}
+	</div>
+</div><!-- // end #main -->
+
+<div class="footer">
+	<div class="container">
+
+	</div>
+</div><!-- // end #fppter -->
+	
+	
+</body>
+</html>
+<script type="text/javascript">
+$(function(){
+	$('.menu').find('a[href*="cid={$cid}"]').addClass('active');
+	$('#catBox').find('a').removeClass('active');
+	$('#brands').find('a[href*="bid={$bid}"]').addClass('active');
+	$('#price').find('a[href*="prid={$prid}"]').addClass('active');
+});
+</script>
