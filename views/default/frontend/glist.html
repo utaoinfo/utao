@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="description" content="{$description}" />
-    <meta name="keywords" content="{$keywords}" />
-    <title>列表页面</title>	
-    <link href="css/style.css" rel="stylesheet" type="text/css" />	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="description" content="{$description}" />
+	<meta name="keywords" content="{$keywords}" />
+	<title>列表页面</title>	
+	<link href="css/style.css" rel="stylesheet" type="text/css" />	
 	<link href="css/nivo-slider.css" rel="stylesheet" type="text/css" />
-    <!--[if IE]><link href="css/style-ie.css" rel="stylesheet" type="text/css" /><![endif]-->
+	<!--[if IE]><link href="css/style-ie.css" rel="stylesheet" type="text/css" /><![endif]-->
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/page.js"></script>
 </head>
@@ -21,16 +21,16 @@
 			</a>
 		</h1>
 		<div class="z_b_wrap">
-            <div class="z_txtwrap">
-                <span class="z_s_l"></span>
-                <span class="z_s_r"></span>
-                <span class="text">
-                    <span name="kwPlaceholder" class="z_input_lab" style="display:none;">输入想查询的词</span>
-                    <input id="kwInput" value="" placeholder="输入想查询的词" name="" type="text">
-                </span>
-            </div>
-            <a class="z_btn_bf" id="searchBtn" href="javascript:;" title="播放" onclick="return false;">搜索</a>
-        </div>
+			<div class="z_txtwrap">
+				<span class="z_s_l"></span>
+				<span class="z_s_r"></span>
+				<span class="text">
+					<span name="kwPlaceholder" class="z_input_lab" style="display:none;">输入想查询的词</span>
+					<input id="kwInput" value="" placeholder="输入想查询的词" name="" type="text">
+				</span>
+			</div>
+			<a class="z_btn_bf" id="searchBtn" href="javascript:;" title="播放" onclick="return false;">搜索</a>
+		</div>
 	</div>
 </div>
 <!-- // end #header -->
@@ -113,20 +113,21 @@
 					{/if}
 
 				</li>
-	        </ul>
+			</ul>
 		</div>
 
 
 		{if:count($goods_list)}
-		<div  class="row clearfix">
+		<div>
 			<!-- 排序选择 -->
 			<ul class="sort clearfix">	
 				<li class="tabitem"><a href="#" class="on" target="_self">最近上架</a></li>	
 				<li class="tabitem"><a class="active" href="#" target="_self">最受好评</a></li>	
 			</ul>
-
+		</div>
+		<div id="itemContainer" class="row clearfix">
 			{foreach:items=$goods_list item=$goods}
-			<div class="column" {if:$key==4} style="margin-right:0;"{/if}>
+			<div class="column" {if:$key%5==0} style="margin-left:0;"{/if}>
 				<div class="image">
 					<a href="{$goods['url']}" title="{$goods['name']}" target="_blank">
 						<img src="{$goods['list_img']}" alt="{$goods['name']}" />
@@ -177,9 +178,9 @@ $(function(){
 		}else{
 			$(this).find('a').html('展开↓');
 			parent.addClass('less');
-		}
-			
+		}	
 	});
+
 });
 </script>
 <p style="display:none;">

@@ -85,7 +85,7 @@ input:-ms-input-placeholder{color:#ccc;}
 .nivo-controlNav .nivo-control.active { background: url(../images/bullets.png) no-repeat scroll 0 -22px; }
 
 /*** 列表项 ***/
-.row .column { float: left; margin-right:40px; width: 160px;height: 275px; }
+.row .column { float: left; margin-left:40px; width: 160px;height: 275px; }
 .row .column.last { margin-right: 0px; }
 .row .column .image { background: #cccccc; height: 160px; width: 160px; margin-bottom: 5px; -moz-box-shadow: 0 0 5px #888; -webkit-box-shadow: 0 0 5px#888; box-shadow: 0 0 5px #888;overflow: hidden; }
 .row .column .image img{ height:160px;width:160px;}
