@@ -42,18 +42,26 @@ class Frontend extends IController
 		$categoryObj = new IModel('category');
 
 		// 获取前四个分类
-		$sql  = "SELECT id,name FROM {$this->tablePre}category WHERE parent_id IN (SELECT id FROM {$this->tablePre}category WHERE parent_id=0 ) ORDER BY sort ASC LIMIT 4 ";
+		$sql  = "SELECT id,name FROM {$this->tablePre}category WHERE parent_id IN (SELECT id FROM {$this->tablePre}category WHERE parent_id=0 ) ORDER BY sort ASC LIMIT 5";
 		$categories =  $categoryObj->query_sql($sql);
+
 		$goods_list = array();
 		if(count($categories)>0){
 			foreach($categories as $key=>$value){
 				$cid = $value['id'];
+				$cids = Block::getCategroy($cid);
+				if(!$cids)
+					continue;
+
+				$cids = substr($cids,0,-1); 
 				$sql = "SELECT DISTINCT({$this->tablePre}goods.id),{$this->tablePre}goods.name,{$this->tablePre}goods.notes,{$this->tablePre}goods.sell_price,{$this->tablePre}goods.market_price,{$this->tablePre}goods.from,{$this->tablePre}goods.list_img,{$this->tablePre}goods.url 
 				FROM {$this->tablePre}goods
 				LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}goods.id = {$this->tablePre}category_extend.goods_id
-				WHERE {$this->tablePre}category_extend.category_id = {$cid} AND  {$this->tablePre}goods.is_del=0
+				LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category_extend.category_id = {$this->tablePre}category.id
+				WHERE {$this->tablePre}goods.is_del=0 AND {$this->tablePre}category_extend.category_id IN ($cids)
 				ORDER BY {$this->tablePre}goods.sort ASC
-				LIMIT 4";
+				LIMIT 5";
+				
 				$goods =  $categoryObj->query_sql($sql);
 				if(count($goods)>0){
 					$goods_list[$value['id']] = $goods;
@@ -81,17 +89,41 @@ class Frontend extends IController
 	public function glist(){
 		$data = array();
 		$goods_list = array();
-		$cid = IFilter::act(IReq::get('cid'),'int');
-		$bid = IFilter::act(IReq::get('bid'),'int');
-		$prid = IFilter::act(IReq::get('prid'),'int');
+		$ids = IFilter::act(IReq::get('ids'));
+
+		$arr_ids = explode('_', $ids);
+		$top_cid = intval($arr_ids[0]);
+		$second_cid = intval($arr_ids[1]);
+		$third_cid = intval($arr_ids[2]);
+		$forth_cid = intval($arr_ids[3]);
+		$bid = intval($arr_ids[4]);
+		$prid = intval($arr_ids[5]);
 
 		$page = IFilter::act(IReq::get('page'),'int');
 		$pagesize = $this->site_config['list_num'];
 		$start = $page*$pagesize;
 		$end = ($page+1)*$pagesize;
 		$brands = array();
-		if($cid){
-			$where = "{$this->tablePre}category.id={$cid} AND  {$this->tablePre}goods.is_del=0";
+
+		if($second_cid){
+			$categoryObj = new IModel('category');
+			// 获取二级类的名称
+			$sql = "SELECT id,name FROM {$this->tablePre}category WHERE id=$second_cid";
+			$second_catinfo = $categoryObj->query_sql($sql);
+			$cname = count($second_catinfo )>0 ? $second_catinfo[0]['name'] : '';
+
+			$where = "{$this->tablePre}goods.is_del=0";
+			if($third_cid){
+				$cids = Block::getCategroy($third_cid);
+			}else{
+				$cids = Block::getCategroy($second_cid);
+			}
+			if($cids){
+				$cids = substr($cids,0,-1); 
+				$where .= " AND {$this->tablePre}category_extend.category_id IN ({$cids})";
+			}
+				
+				
 			if($bid>0){
 				$where .= " AND {$this->tablePre}goods.brand_id={$bid}";
 			}
@@ -99,8 +131,7 @@ class Frontend extends IController
 				$where .= " AND {$this->tablePre}goods.sell_price>=".$this->site_config['price_range'][$prid-1] ." AND  {$this->tablePre}goods.sell_price<=".$this->site_config['price_range'][$prid];
 			}
 
-			$categoryObj = new IModel('category');
-			$sql = "SELECT DISTINCT({$this->tablePre}goods.id),{$this->tablePre}goods.*,{$this->tablePre}category.name as cname,{$this->tablePre}category.id as cid FROM {$this->tablePre}goods
+			$sql = "SELECT DISTINCT({$this->tablePre}goods.id),{$this->tablePre}goods.*,{$this->tablePre}category.id as cid FROM {$this->tablePre}goods
 					LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}category_extend.goods_id={$this->tablePre}goods.id
 					LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category.id={$this->tablePre}category_extend.category_id
 					WHERE {$where}
@@ -108,13 +139,17 @@ class Frontend extends IController
 					LIMIT $start,$end ";
 			$goods_list =  $categoryObj->query_sql($sql);
 
+			// 获取当前类别的一级子类
+			$sql  = "SELECT id,name FROM {$this->tablePre}category WHERE parent_id={$second_cid}";
+			$subcat = $categoryObj->query_sql($sql);
+
 			// 获取品牌id
-			if($cid){
+			if( ($second_cid || $third_cid) && $cids ){
 				$bids = array();
 				$sql = "SELECT DISTINCT({$this->tablePre}goods.brand_id), {$this->tablePre}category.* FROM {$this->tablePre}goods
 					LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}category_extend.goods_id={$this->tablePre}goods.id
 					LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category.id={$this->tablePre}category_extend.category_id
-					WHERE {$this->tablePre}category.id={$cid} AND  {$this->tablePre}goods.is_del=0 ";
+					WHERE {$this->tablePre}category_extend.category_id IN ({$cids}) AND  {$this->tablePre}goods.is_del=0 ";
 					$brand_ids =  $categoryObj->query_sql($sql);
 
 				foreach($brand_ids as $key=>$value){
@@ -129,19 +164,25 @@ class Frontend extends IController
 					$brands =  $categoryObj->query_sql($sql);
 				}
 				
-				
 			}
 			
 		}
 		
 
 		$data['goods_list'] = $goods_list;
-		$data['cid'] = $cid>0? $cid: -1;
-		$data['bid'] = $bid>0? $bid: -1;
-		$data['prid'] = $prid>0? $prid: -1;
-		$data['cname'] = count($goods_list)>0 ? $goods_list[0]['cname'] : '';
+
+		$data['cname'] = $cname;
+		$data['top_cid'] = $top_cid;
+		$data['second_cid'] = $second_cid;
+		$data['third_cid'] = $third_cid;
+		$data['forth_cid'] = $forth_cid;
+		$data['bid'] = $bid;
+		$data['prid'] = $prid;
+
+
 		$data['brands'] = count($brands)>0 ? $brands : '';
 		$data['price_range']  = count($this->site_config['price_range'])>0 ? $this->site_config['price_range'] : '';
+		$data['subcat']  = count($subcat)>0 ? $subcat : '';
 		$data['page'] = $page;
 	
 		$this->setRenderData($data);

@@ -9,9 +9,8 @@
 	<link href="css/nivo-slider.css" rel="stylesheet" type="text/css" />
     <!--[if IE]><link href="css/style-ie.css" rel="stylesheet" type="text/css" /><![endif]-->
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-
+	<script type="text/javascript" src="js/page.js"></script>
 </head>
-
 <body>
 
 <div class="header">
@@ -26,63 +25,85 @@
                 <span class="z_s_l"></span>
                 <span class="z_s_r"></span>
                 <span class="text">
-                    <span name="inputLabel" class="z_input_lab" style="display:none;">输入想查询的词</span>
-                    <input id="playAddr" value="" placeholder="输入想查询的词" name="" type="text">
+                    <span name="kwPlaceholder" class="z_input_lab" style="display:none;">输入想查询的词</span>
+                    <input id="kwInput" value="" placeholder="输入想查询的词" name="" type="text">
                 </span>
             </div>
-            <a class="z_btn_bf" id="playBtn" href="javascript:;" title="播放" onclick="return false;">搜索</a>
+            <a class="z_btn_bf" id="searchBtn" href="javascript:;" title="播放" onclick="return false;">搜索</a>
         </div>
 	</div>
-</div><!-- // end #header -->
+</div>
+<!-- // end #header -->
 <div class="nav">
 	<div class="container">
 		{if:$this->guide_list}
 		<ul class="menu fl">
 			<li><a href="/" title="首页" >首页</a></li>
 			{foreach:items=$this->guide_list}	
-			<li ><a href="{$item['link']}" title="{$item['name']}">{$item['name']}</a></li>
+			<li ><a href="{$item['link']}" title="{$item['name']}" >{$item['name']}</a></li>
 			{/foreach}
 		</ul>
 		{/if}
 	</div>
-</div><!-- // end nav -->
+</div>
+<!-- // end nav -->
 
 <div class="main">
 	<div class="container">
 		{if:$cname}
 			<h2><b>{$cname}</b></h3>
 		{/if}
+		<!-- 搜索过滤 -->
 		<div id="catBox" class="catschoose">
-			
 			<ul class="operation_area">
 				<li>
+					{if:$subcat && count($subcat)}
+					<dl id="subcat" class="clearfix {if:count($subcat)>15}less{/if}">
+						<dt>类别：</dt>
+						<dd>
+							<dl>
+								<dt><strong><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_0_{$forth_cid}_{$bid}_{$prid}">全部</a></strong></dt>
+								{foreach:items=$subcat item=$cat}
+
+								<dd><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$cat['id']}_{$forth_cid}_{$bid}_{$prid}" >{$cat['name']}</a></dd>
+
+								{/foreach}
+							</dl>
+						</dd>
+						{if:count($subcat)>15}
+						<p class="more_cats"><strong><a href="javascript:;" >展开↓</a></strong></p>
+						{/if}
+					</dl>
+					{/if}
+
 					{if:$brands && count($brands)}
-					<dl id="brands" class="clearfix">
+					<dl id="brands" class="clearfix {if:count($brands)>15}less{/if}">
 						<dt>品牌：</dt>
 						<dd>
 							<dl>
-								<dt><strong><a href="/?controller=frontend&action=glist&cid={$cid}&bid=-1&prid={$prid}" class="active">全部</a></strong></dt>
-								
+								<dt><strong><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_0_{$prid}">全部</a></strong></dt>
 								{foreach:items=$brands item=$brand}
-								<dd><a href="/?controller=frontend&action=glist&cid={$cid}&bid={$brand['id']}&prid={$prid}" >{$brand['name']}</a></dd>
+								<dd><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$brand['id']}_{$prid}" >{$brand['name']}</a></dd>
 								{/foreach}
 								
 							</dl>
 						</dd>
+						{if:count($brands)>15}
+						<p class="more_cats"><strong><a href="javascript:;" >展开↓</a></strong></p>
+						{/if}
 					</dl>
 					{/if}
+
 					{if:$price_range && count($price_range)}
-					<dl id="price" class="clearfix">
+					<dl id="price" class="clearfix ">
 						<dt>价格：</dt>
 						<dd>
 							<dl>
-								<dt><strong><a class="active" href="/?controller=frontend&action=glist&cid={$cid}&bid={$bid}&prid=-1" >全部</a></strong></dt>
-								
+								<dt><strong><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0" >全部</a></strong></dt>
 								{foreach:items=$price_range item=$range}
-								
 								{if:$key!=0}
 								{set:$currentRange= $range-1;}
-								<dd><a href="/?controller=frontend&action=glist&cid={$cid}&bid={$bid}&prid={$key}" >{$lastRange}-{$currentRange}</a></dd>
+								<dd><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$key}" >{$lastRange}-{$currentRange}</a></dd>
 								{/if}
 								{set:$lastRange=$range}
 								{/foreach}
@@ -90,6 +111,7 @@
 						</dd>
 					</dl>
 					{/if}
+
 				</li>
 	        </ul>
 		</div>
@@ -97,12 +119,14 @@
 
 		{if:count($goods_list)}
 		<div  class="row clearfix">
+			<!-- 排序选择 -->
 			<ul class="sort clearfix">	
 				<li class="tabitem"><a href="#" class="on" target="_self">最近上架</a></li>	
 				<li class="tabitem"><a class="active" href="#" target="_self">最受好评</a></li>	
 			</ul>
+
 			{foreach:items=$goods_list item=$goods}
-			<div class="column" {if:$key%4==3}style="margin-right:0;"{/if}>
+			<div class="column" {if:$key==4} style="margin-right:0;"{/if}>
 				<div class="image">
 					<a href="{$goods['url']}" title="{$goods['name']}" target="_blank">
 						<img src="{$goods['list_img']}" alt="{$goods['name']}" />
@@ -112,7 +136,7 @@
 					<strong class="new_price">￥{$goods['sell_price']}</strong>
 					原价：<span class="old_price">{$goods['market_price']}</span>
 				</p>
-				<p><a href="{$goods['url']}" title="{$goods['name']}" target="_blank">{echo:IString::substr($goods['name'],14,'....')}</a></p>
+				<p><a href="{$goods['url']}" title="{$goods['name']}" target="_blank">{echo:IString::substr($goods['name'],25,'....')}</a></p>
 				<p class="sub_tip">{$goods['notes']}</p>
 			</div>
 			{/foreach}
@@ -131,7 +155,7 @@
 
 <div class="footer">
 	<div class="container">
-
+		<div id="footer">www.utao.info 优淘 Copyright © 2012-2013</div>
 	</div>
 </div><!-- // end #fppter -->
 	
@@ -140,9 +164,27 @@
 </html>
 <script type="text/javascript">
 $(function(){
-	$('.menu').find('a[href*="cid={$cid}"]').addClass('active');
+	$('.menu').find('a[href*="ids={$top_cid}_{$second_cid}_"]').addClass('active');
 	$('#catBox').find('a').removeClass('active');
-	$('#brands').find('a[href*="bid={$bid}"]').addClass('active');
-	$('#price').find('a[href*="prid={$prid}"]').addClass('active');
+	$('#brands').find('a[href*="ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}"]').addClass('active');
+	$('#price').find('a[href*="ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}"]').addClass('active');
+	$('#subcat').find('a[href*="ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}"]').addClass('active');
+	$('.more_cats').unbind('click').click(function(){
+		var parent = $(this).parent();
+		if(parent.hasClass('less')){
+			$(this).find('a').html('收起↑');
+			parent.removeClass('less');
+		}else{
+			$(this).find('a').html('展开↓');
+			parent.addClass('less');
+		}
+			
+	});
 });
 </script>
+<p style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F60d2ec0a4398cdc9ae7bf4aa6dd174d0' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</p>

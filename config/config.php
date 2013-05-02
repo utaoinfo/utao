@@ -8,12 +8,12 @@ return array(
 		'type'=>'mysql',
         'tablePre'=>'xph_',
 		'read'=>array(
-			array('host'=>'210.209.127.195:3306','user'=>'keenhome','passwd'=>'gong2008','name'=>'xiaopihai'),
+			array('host'=>'db.shop.xunlei.com','user'=>'xunlei','passwd'=>'xunlei','name'=>'xiaopihai'),
 			//array('host'=>'localhost:3306','user'=>'root','passwd'=>'admin','name'=>'xiaopihai'),
 		),
 
 		'write'=>array(
-			'host'=>'210.209.127.195:3306','user'=>'keenhome','passwd'=>'gong2008','name'=>'xiaopihai',
+			'host'=>'db.shop.xunlei.com','user'=>'xunlei','passwd'=>'xunlei','name'=>'xiaopihai',
 			//'host'=>'localhost:3306','user'=>'root','passwd'=>'admin','name'=>'xiaopihai',
 		),
 	),

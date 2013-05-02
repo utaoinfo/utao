@@ -31,10 +31,11 @@ body { background: #f0f0f0;font-family: 微软雅黑E\8F6F\96C5\9ED1,Tahoma,Verd
 h1,h2,h3,h4,h5,h6 { font-weight: normal; margin-bottom: 15px; }
 p { margin: 0; }
 
-
 a, a:link {color: #333;text-decoration: none;}
 a:hover {color: #3EAF0E;text-decoration: underline;}
 
+/*** Main ***/
+.main { padding: 25px 0px 40px; }
 
 .container { margin: 0px auto; width: 960px; }
 
@@ -43,7 +44,7 @@ a:hover {color: #3EAF0E;text-decoration: underline;}
 .header h1 { float: left; margin: 15px 0px 0px; }
 .header h1 a { font-weight: bold;  }
 
-/*** search ***/
+/*** 搜索search ***/
 .z_btn_bf, .z_txtwrap, .z_s_l, .z_s_r{background: url(../img/spr_icon.png) no-repeat;}
 .z_b_wrap{ width:450px; height:41px; margin:18px auto 0;overflow:hidden;}
 .z_txtwrap{ float:left; width:335px; height:41px; background-position:0 -126px; background-repeat:repeat-x; position:relative; overflow:hidden;}
@@ -68,16 +69,13 @@ input:-ms-input-placeholder{color:#ccc;}
 .z_txt_tips{ height:22px; line-height:22px; background-color:#ffe9ad; color:#e9873f; width:604px; margin-left:126px; text-indent:14px; border:1px solid #e9873f;}
 
 
-/**** nav ***/
+/**** 导航菜单nav ***/
 .nav{ height: 40px; background:#3EAF0E; border-bottom: 1px solid #d9d9d9;}
 .nav .menu { margin: 0; font-size: 14px;}
 .nav .menu li { float: left; margin: 0px 0px 0px 25px; }
 .nav .menu li a{text-decoration:none;color: #fff; display: inline-block;vertical-align: top;height: 38px;line-height:38px;}
 .nav .menu li a:hover {text-decoration:none; border-bottom: 2px solid #FFF;color: #FFF;}
 .nav .menu .active{border-bottom: 2px solid #FFF;color: #FFF;font-weight: bold;}
-
-/*** Main ***/
-.main { padding: 25px 0px 40px; }
 
 /*** Slideshow ***/
 .slideshow { background: #cccccc; height: 320px!important; margin: 0px 10px 25px; position: relative; -moz-box-shadow: 0 0 5px #888; -webkit-box-shadow: 0 0 5px#888; box-shadow: 0 0 5px #888;border: #cccccc solid 1px; overflow: hidden; }
@@ -86,11 +84,11 @@ input:-ms-input-placeholder{color:#ccc;}
 .nivo-controlNav .nivo-control { background: url(../images/bullets.png) no-repeat; display: block; float: left; height: 20px; text-indent: -9999px; width: 22px; }
 .nivo-controlNav .nivo-control.active { background: url(../images/bullets.png) no-repeat scroll 0 -22px; }
 
-
-.row .column { float: left; margin-right:50px; width: 200px;height: 275px; }
+/*** 列表项 ***/
+.row .column { float: left; margin-right:40px; width: 160px;height: 275px; }
 .row .column.last { margin-right: 0px; }
-.row .column .image { background: #cccccc; height: 200px; margin-bottom: 5px; width: 200px; -moz-box-shadow: 0 0 5px #888; -webkit-box-shadow: 0 0 5px#888; box-shadow: 0 0 5px #888;overflow: hidden; }
-.row .column .image img{ height: 200px;width: 200px;}
+.row .column .image { background: #cccccc; height: 160px; width: 160px; margin-bottom: 5px; -moz-box-shadow: 0 0 5px #888; -webkit-box-shadow: 0 0 5px#888; box-shadow: 0 0 5px #888;overflow: hidden; }
+.row .column .image img{ height:160px;width:160px;}
 .row .column .pro_price {color: #636362;padding: 5px 0 0;}
 .row .column .pro_price .new_price {color:#FF4500;font-size: 18px;font-weight: normal;margin: 0 4px 0 0;}
 .row .column .pro_price .old_price {text-decoration: line-through;}
@@ -117,143 +115,35 @@ input:-ms-input-placeholder{color:#ccc;}
 
 /*** catetgroy select ***/
 
-
-.catschoose {
-padding: 0 10px;
-border: 1px solid #CCC;
-overflow: hidden;
-margin-bottom: 0;
-}
-
+.catschoose {padding: 0 10px;border: 1px solid #CCC;overflow: hidden;margin-bottom: 0;}
 .catschoose a.active, .catschoose a.active:link, .catschoose a.active:visited, .catschoose a.active:hover, .catschoose a.active:active {
-background-color: #3EAF0E;
-color: white;
-text-decoration: none;
-}
+background-color: #3EAF0E;color: white;text-decoration: none;}
+.catschoose .less{overflow: hidden;height: 20px;}
+.catschoose .more_cats{position:absolute;right:1px;}
+.catschoose .more_cats a:hover{color:#3EAF0E;text-decoration:underline;}
 
-.catschoose ul {
-margin-bottom: -1px;
-}
-.catschoose ul.operation_area {
-margin-bottom: 0;
-}
-li {
-display: list-item;
-}
-.catschoose ul li {
-vertical-align: top;
-margin-bottom: -1px;
-}
+.catschoose ul {margin-bottom: -1px;}
+.catschoose ul.operation_area {margin-bottom: 0;}
+.catschoose ul li {vertical-align: top;margin-bottom: -1px;}
+.catschoose ul li::after {content: "";clear: both;display: block;height: 0;visibility: hidden;}
+.catschoose dl {position:relative;border-bottom: 1px dotted #CCC;padding: 7px 0;line-height: 22px;color: #666;}
+.catschoose dl::after {content: "";height: 0;visibility: hidden;display: block;}
+.catschoose dl a {padding: 1px 2px;}
+.catschoose dl a:hover {color: #3EAF0E;}
+.catschoose dl a:link, .catschoose dl a:visited {color: #444;}
 
-.catschoose ul li::after {
-content: "";
-clear: both;
-display: block;
-height: 0;
-visibility: hidden;
-}
+.catschoose dl dt {float: left;width: 85px;padding-right: 9px;color: black;text-align: right;}
+.catschoose dl dd {float: left;width: 800px;}
+.catschoose dl dd dl {float: left;padding: 0;border-bottom: 0;}
+.catschoose dl dd dl dt, .catschoose dl dd dl dd {float: left;width: auto;padding-bottom: 7px;padding-right: 8px;font-weight: normal;white-space: nowrap;}
+.catschoose dl dd dl dt a, .catschoose dl dd dl dd a {height: 18px;display: inline-block;line-height: 19px;padding-left: 3px;}
+.catschoose dl dd dl dt a:hover, .catschoose dl dd dl dd a:hover {background: #3EAF0E;text-decoration: none;color: #fff;}
 
+.sort {	position: relative;margin-bottom: 30px;height: 32px;border: 1px solid #E4E3E3;line-height: 32px;background: url(../img/sort_bg.png) repeat-x;}
+.sort .tabitem {float: left;width: 87px;border-right: 1px solid #E1E1E1;text-align: center;}
+.sort .tabitem a {text-decoration: none;display: block;}
+.sort .tabitem a.active {cursor: default;height: 33px;color: #3AA50D;font-weight: bold;background: #f0f0f0;}
 
-.catschoose dl {
-border-bottom: 1px dotted #CCC;
-padding: 7px 0;
-line-height: 22px;
-color: #666;
-}
-.catschoose dl::after {
-content: "";
-
-height: 0;
-visibility: hidden;
-display: block;
-}
-
-.catschoose dl a {
-padding: 1px 2px;
-}
-.catschoose dl a:hover {
-color: #3EAF0E;
-}
-.catschoose dl a:link, .catschoose dl a:visited {
-color: #444;
-}
-
-
-.catschoose dl dt {
-float: left;
-width: 85px;
-padding-right: 9px;
-color: black;
-text-align: right;
-}
-.catschoose dl dd {
-float: left;
-width: 800px;
-}
-.catschoose dl dd dl {
-float: left;
-padding: 0;
-border-bottom: 0;
-}
-.catschoose dl dd dl dt, .catschoose dl dd dl dd {
-float: left;
-width: auto;
-padding-bottom: 7px;
-padding-right: 8px;
-font-weight: normal;
-white-space: nowrap;
-}
-
-.catschoose dl dd dl dt a, .catschoose dl dd dl dd a {
-height: 18px;
-display: inline-block;
-line-height: 19px;
-padding-left: 3px;
-}
-.catschoose dl dd dl dt a:hover, .catschoose dl dd dl dd a:hover {
-background: #3EAF0E;
-text-decoration: none;
-color: #fff;
-}
-
-
-.sort {
-	position: relative;
-margin-bottom: 30px;
-height: 32px;
-border: 1px solid #E4E3E3;
-line-height: 32px;
-background: url(../img/sort_bg.png) repeat-x;
-}
-
-.sort .tabitem {
-float: left;
-width: 87px;
-border-right: 1px solid #E1E1E1;
-text-align: center;
-}
-.sort .tabitem a {
-	text-decoration: none;
-display: block;
-}
-.sort .tabitem a.active {
-cursor: default;
-height: 33px;
-color: #3AA50D;
-font-weight: bold;
-background: #f0f0f0;
-}
-
-
-/*** Gallery ***/
-.gallery {  }
-.gallery .item { background: #cccccc; border: 5px solid #ffffff; float: left; height: 180px; margin: 0px 20px 40px 20px; width: 180px; }
-
-/*** Blog ***/
-.blog {}
-.blog .post { margin-bottom: 20px; overflow: hidden; }
-.blog .post h2 { margin-bottom: 0px; }
-.blog .post .date { border-bottom: 1px solid #ccc; font-size: 12px; margin-bottom: 10px; padding-bottom: 10px; }
 
 
 /*** Widget ***/

@@ -443,6 +443,7 @@ class Block extends IController
     	$sub_category = '';
     	if($category_id)
     	{
+    		
     		$tb_category = new IModel('category');
     		$category_info = $tb_category->query('parent_id='.$category_id);
     		if(count($category_info)>0)
