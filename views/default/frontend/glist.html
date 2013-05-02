@@ -26,7 +26,7 @@
 				<span class="z_s_r"></span>
 				<span class="text">
 					<span name="kwPlaceholder" class="z_input_lab" style="display:none;">输入想查询的词</span>
-					<input id="kwInput" value="" placeholder="输入想查询的词" name="" type="text">
+					<input id="kwInput" value="{$kw}" placeholder="输入想查询的词" name="" type="text">
 				</span>
 			</div>
 			<a class="z_btn_bf" id="searchBtn" href="javascript:;" title="播放" onclick="return false;">搜索</a>
@@ -50,7 +50,9 @@
 
 <div class="main">
 	<div class="container">
-		{if:$cname}
+		{if:$kw}
+			<h2><b>共找到关于“<span style="color:red;">{$kw}</span>”的商品记录{$goodsNum}条</b></h3>
+		{elseif:$cname}
 			<h2><b>{$cname}</b></h3>
 		{/if}
 		<!-- 搜索过滤 -->
@@ -94,7 +96,7 @@
 					</dl>
 					{/if}
 
-					{if:$price_range && count($price_range)}
+					{if:$price_range && count($price_range) && ($brands||$subcat )}
 					<dl id="price" class="clearfix ">
 						<dt>价格：</dt>
 						<dd>

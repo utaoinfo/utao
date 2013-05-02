@@ -90,22 +90,32 @@ class Frontend extends IController
 		$data = array();
 		$goods_list = array();
 		$ids = IFilter::act(IReq::get('ids'));
-
-		$arr_ids = explode('_', $ids);
-		$top_cid = intval($arr_ids[0]);
-		$second_cid = intval($arr_ids[1]);
-		$third_cid = intval($arr_ids[2]);
-		$forth_cid = intval($arr_ids[3]);
-		$bid = intval($arr_ids[4]);
-		$prid = intval($arr_ids[5]);
+		if($ids){
+			$arr_ids = explode('_', $ids);
+			$top_cid = intval($arr_ids[0]);
+			$second_cid = intval($arr_ids[1]);
+			$third_cid = intval($arr_ids[2]);
+			$forth_cid = intval($arr_ids[3]);
+			$bid = intval($arr_ids[4]);
+			$prid = intval($arr_ids[5]);
+		}else{
+			$top_cid = 0;
+			$second_cid = 0;
+			$third_cid = 0;
+			$forth_cid = 0;
+			$bid = 0;
+			$prid = 0;
+		}
+			
 
 		$page = IFilter::act(IReq::get('page'),'int');
 		$pagesize = $this->site_config['list_num'];
 		$start = $page*$pagesize;
 		$end = ($page+1)*$pagesize;
 		$brands = array();
-
-		if($second_cid){
+		$subcat = array();
+		$cname = '';
+		if($top_cid || $second_cid){
 			$categoryObj = new IModel('category');
 			// 获取二级类的名称
 			$sql = "SELECT id,name FROM {$this->tablePre}category WHERE id=$second_cid";
@@ -115,8 +125,10 @@ class Frontend extends IController
 			$where = "{$this->tablePre}goods.is_del=0";
 			if($third_cid){
 				$cids = Block::getCategroy($third_cid);
-			}else{
+			}elseif($second_cid){
 				$cids = Block::getCategroy($second_cid);
+			}elseif($top_cid){
+				$cids = Block::getCategroy($top_cid);
 			}
 			if($cids){
 				$cids = substr($cids,0,-1); 
@@ -130,7 +142,7 @@ class Frontend extends IController
 			if($prid>0){
 				$where .= " AND {$this->tablePre}goods.sell_price>=".$this->site_config['price_range'][$prid-1] ." AND  {$this->tablePre}goods.sell_price<=".$this->site_config['price_range'][$prid];
 			}
-
+			// 获取商品列表
 			$sql = "SELECT DISTINCT({$this->tablePre}goods.id),{$this->tablePre}goods.*,{$this->tablePre}category.id as cid FROM {$this->tablePre}goods
 					LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}category_extend.goods_id={$this->tablePre}goods.id
 					LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category.id={$this->tablePre}category_extend.category_id
@@ -188,5 +200,134 @@ class Frontend extends IController
 		$this->setRenderData($data);
 		$this->redirect('glist');
 	}
+
+
+	/**
+	*	搜索
+	*	@author keenhome@126.com
+	*	@date 2013-4-30
+	*/
+	public function search(){
+		$data = array();
+		$goods_list = array();
+		$ids = IFilter::act(IReq::get('ids'));
+		if($ids){
+			$arr_ids = explode('_', $ids);
+			$top_cid = intval($arr_ids[0]);
+			$second_cid = intval($arr_ids[1]);
+			$third_cid = intval($arr_ids[2]);
+			$forth_cid = intval($arr_ids[3]);
+			$bid = intval($arr_ids[4]);
+			$prid = intval($arr_ids[5]);
+		}else{
+			$top_cid = 0;
+			$second_cid = 0;
+			$third_cid = 0;
+			$forth_cid = 0;
+			$bid = 0;
+			$prid = 0;
+		}
+			
+		$brands = array();
+		$subcat = array();
+		$cname = '';
+
+		$page = IFilter::act(IReq::get('page'),'int');
+		$word = IFilter::act(IReq::get('kw'));
+		$cat_id = intval(IReq::get('ids'));
+
+		if($word != '' && $word != '%' && $word != '_'){
+			$goodsObj      = new IModel('goods');
+			// 获取商品列表
+			$sql = "SELECT * FROM {$this->tablePre}goods WHERE {$this->tablePre}goods.name LIKE '%{$word}%' AND {$this->tablePre}goods.is_del=0 ";
+			$goods_list = $goodsObj->query_sql($sql);
+			// 商品总数
+			
+
+			if(count($goods_list)>0){
+				$brand_ids = array();
+				$goods_ids = array();
+				foreach ($goods_list as $key => $goods) {
+					if($goods['brand_id'])
+						$brand_ids[$goods['brand_id']] = $goods['brand_id'];
+					array_push($goods_ids, $goods['id']);
+				}
+				// 获取分类
+				if(count($goods_ids)){
+					$goods_ids_string = implode(',',$goods_ids);
+					$sql = "SELECT id,name,parent_id FROM {$this->tablePre}category WHERE  {$this->tablePre}category.id IN (SELECT {$this->tablePre}category_extend.category_id FROM {$this->tablePre}category_extend WHERE {$this->tablePre}category_extend.goods_id IN($goods_ids_string) )";
+					$categories = $goodsObj->query_sql($sql);
+					if(count($categories)>0){
+						$parent1_categories = array();
+						$second_categories =array();
+						$subcat = array();
+						// 获取上一级类
+						foreach ($categories as $key => $category) {
+							if($category['parent_id']){
+								$parent1_categories[$category['id']] = $category['id'];
+							}
+						}
+						//print_r($parent1_categories);exit();
+					}
+				}
+				// 获取品牌
+				if(count($brand_ids)){
+					$bids_string = implode(',',$brand_ids);
+					$sql = "SELECT * FROM {$this->tablePre}brand WHERE id IN($bids_string) ";
+					$brands =  $goodsObj->query_sql($sql);
+				}
+
+			}
+
+			//搜索关键字
+			$tb_sear     = new IModel('search');
+			$search_info = $tb_sear->getObj('keyword = "'.$word.'"','id');
+			//如果是第一页，相应关键词的被搜索数量才加1
+			if($search_info && $page < 2 ){
+				//禁止刷新+1
+				$allow_sep = "30";
+				$flag = false;
+				$time = ICookie::get('step');
+				if(isset($time)){
+					if (time() - $time > $allow_sep)
+					{
+						ICookie::set('step',time());
+						$flag = true;
+					}
+				}else{
+					ICookie::set('step',time());
+					$flag = true;
+				}
+				if($flag){
+					$tb_sear->setData(array('num'=>'num + 1'));
+					$tb_sear->update('id='.$search_info['id'],'num');
+				}
+			}elseif( !$search_info ){
+				//如果数据库中没有这个词的信息，则新添
+				$tb_sear->setData(array('keyword'=>$word,'num'=>1));
+				$tb_sear->add();
+			}
+		}else{
+			IError::show(403,'请输入正确的查询关键词');
+		}
+
+		$data['goods_list'] = $goods_list;
+		$data['cname'] = $cname;
+		$data['top_cid'] = $top_cid;
+		$data['second_cid'] = $second_cid;
+		$data['third_cid'] = $third_cid;
+		$data['forth_cid'] = $forth_cid;
+		$data['bid'] = $bid;
+		$data['prid'] = $prid;
+		$data['brands'] = count($brands)>0 ? $brands : '';
+		$data['price_range']  = count($this->site_config['price_range'])>0 ? $this->site_config['price_range'] : '';
+		$data['subcat']  = count($subcat)>0 ? $subcat : '';
+		$data['page'] = $page;
+		$data['kw'] = $word;
+		$data['goodsNum'] = count($goods_list);
+		$this->setRenderData($data);
+		$this->redirect('glist',false);
+	}
+
 
 }
