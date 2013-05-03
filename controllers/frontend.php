@@ -118,7 +118,7 @@ class Frontend extends IController
 		if($top_cid || $second_cid){
 			$categoryObj = new IModel('category');
 			// 获取二级类的名称
-			$sql = "SELECT id,name FROM {$this->tablePre}category WHERE id=$second_cid";
+			$sql = "SELECT id,name FROM {$this->tablePre}category WHERE id=$second_cid ORDER BY {$this->tablePre}category.sort ASC";
 			$second_catinfo = $categoryObj->query_sql($sql);
 			$cname = count($second_catinfo )>0 ? $second_catinfo[0]['name'] : '';
 
@@ -172,7 +172,7 @@ class Frontend extends IController
 				// 获取所有品牌
 				if(count($bids)>0){
 					$bids_string = implode(',',$bids);
-					$sql = "SELECT * FROM {$this->tablePre}brand WHERE id IN($bids_string) ";
+					$sql = "SELECT * FROM {$this->tablePre}brand WHERE id IN($bids_string) ORDER BY {$this->tablePre}brand.sort ASC";
 					$brands =  $categoryObj->query_sql($sql);
 				}
 				
@@ -190,7 +190,7 @@ class Frontend extends IController
 		$data['forth_cid'] = $forth_cid;
 		$data['bid'] = $bid;
 		$data['prid'] = $prid;
-
+		$data['kw'] = '';
 
 		$data['brands'] = count($brands)>0 ? $brands : '';
 		$data['price_range']  = count($this->site_config['price_range'])>0 ? $this->site_config['price_range'] : '';
@@ -239,7 +239,7 @@ class Frontend extends IController
 		if($word != '' && $word != '%' && $word != '_'){
 			$goodsObj      = new IModel('goods');
 			// 获取商品列表
-			$sql = "SELECT * FROM {$this->tablePre}goods WHERE {$this->tablePre}goods.name LIKE '%{$word}%' AND {$this->tablePre}goods.is_del=0 ";
+			$sql = "SELECT * FROM {$this->tablePre}goods WHERE {$this->tablePre}goods.name LIKE '%{$word}%' AND {$this->tablePre}goods.is_del=0 ORDER BY {$this->tablePre}goods.sort ASC";
 			$goods_list = $goodsObj->query_sql($sql);
 			// 商品总数
 			
@@ -273,7 +273,7 @@ class Frontend extends IController
 				// 获取品牌
 				if(count($brand_ids)){
 					$bids_string = implode(',',$brand_ids);
-					$sql = "SELECT * FROM {$this->tablePre}brand WHERE id IN($bids_string) ";
+					$sql = "SELECT * FROM {$this->tablePre}brand WHERE id IN($bids_string) ORDER BY {$this->tablePre}brand.sort ASC ";
 					$brands =  $goodsObj->query_sql($sql);
 				}
 

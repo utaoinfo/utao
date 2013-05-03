@@ -10,6 +10,7 @@
     <!--[if IE]><link href="css/style-ie.css" rel="stylesheet" type="text/css" /><![endif]-->
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.nivo.slider.js"></script>
+	<script type="text/javascript" src="js/jquery.lazyload.js"></script>
 	<script type="text/javascript">
 		$(window).load(function() {
 			$('#slideshow').nivoSlider({
@@ -17,6 +18,7 @@
 				directionNav:true,
 				controlNav:true
 			});
+			$(".image img,#slideshow img").lazyload();
 		});
 	</script>
 </head>
@@ -79,10 +81,10 @@
 		<div  class="row clearfix">
 			{foreach:items=$category_goods item=$goods}
 			{if:$key!=='cname'}
-			<div class="column" {if:$key==4}style="margin-left:0;"{/if}>
+			<div class="column" {if:$key%5==0}style="margin-left:0;"{/if}>
 				<div class="image">
 					<a href="{$goods['url']}" title="{$goods['name']}" target="_blank">
-						<img src="{$goods['list_img']}" alt="{$goods['name']}" />
+						<img src="img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
 					</a>
 				</div>
 				<p class="pro_price">

@@ -86,8 +86,10 @@ input:-ms-input-placeholder{color:#ccc;}
 
 /*** 列表项 ***/
 .row .column { float: left; margin-left:40px; width: 160px;height: 275px; }
+
 .row .column.last { margin-right: 0px; }
-.row .column .image { background: #cccccc; height: 160px; width: 160px; margin-bottom: 5px; -moz-box-shadow: 0 0 5px #888; -webkit-box-shadow: 0 0 5px#888; box-shadow: 0 0 5px #888;overflow: hidden; }
+.row .column .image { background: #cccccc; height: 160px; width: 160px; margin-bottom: 2px; -moz-box-shadow: 0 0 2px #888; -webkit-box-shadow: 0 0 2px#888; box-shadow: 0 0 5px #888;overflow: hidden; }
+.row .column .image:hover{-moz-box-shadow: 0 0 5px #3EAF0E; -webkit-box-shadow: 0 0 5px#3EAF0E; box-shadow: 0 0 5px #3EAF0E;}
 .row .column .image img{ height:160px;width:160px;}
 .row .column .pro_price {color: #636362;padding: 5px 0 0;}
 .row .column .pro_price .new_price {color:#FF4500;font-size: 18px;font-weight: normal;margin: 0 4px 0 0;}
