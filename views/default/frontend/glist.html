@@ -130,6 +130,7 @@
 				<li class="tabitem"><a class="active" href="#" target="_self">最受好评</a></li>	
 			</ul>
 		</div>
+		<div class="pagination"></div>
 		<div id="itemContainer" class="row clearfix">
 			{foreach:items=$goods_list item=$goods}
 			<div class="column" {if:$key%5==0} style="margin-left:0;"{/if}>
@@ -147,7 +148,7 @@
 			</div>
 			{/foreach}
 		</div>
-		<div id="pagination"></div>
+		<div class="pagination"></div>
 		{else:}
 		<div style="height:300px;line-height:300px;text-align:center;">
 			{if:$prid}
@@ -187,7 +188,7 @@ $(function(){
 		}	
 	});
 
-	$("#pagination").paginate({
+	$(".pagination").paginate({
 		count 		: Math.ceil({$goodsNum}/40),
 		start 		: parseInt({$page})+1,
 		display     : 13,
