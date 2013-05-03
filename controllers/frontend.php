@@ -153,9 +153,9 @@ class Frontend extends IController
 					WHERE {$where}";
 			$all_goods_list = $categoryObj->query_sql($sql); 
 
-			$fields = " DISTINCT({$this->tablePre}goods.id),{$this->tablePre}goods.*,{$this->tablePre}category.id as cid ";
+			$fields = " DISTINCT({$this->tablePre}goods.id),{$this->tablePre}category.parent_id,{$this->tablePre}goods.*,{$this->tablePre}category.id as cid ";
 			if($word && !$cids){
-				$fields .= ",{$this->tablePre}category.name as cname,{$this->tablePre}category.parent_id";
+				$fields .= ",{$this->tablePre}category.name as cname";
 			}
 			// 获取商品列表
 			$sql = "SELECT {$fields} FROM {$this->tablePre}goods
@@ -214,7 +214,7 @@ class Frontend extends IController
 				}elseif(count($top_cids)>0){
 					$cids = implode(',', $top_cids);
 					$subcat = $top_cat_info;
-					
+
 				}
 
 			}
