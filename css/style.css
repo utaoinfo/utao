@@ -40,7 +40,7 @@ a:hover {color: #3EAF0E;text-decoration: underline;}
 .container { margin: 0px auto; width: 960px; }
 
 /*** Header ***/
-.header { background: #e4e4e4; border-bottom: 1px solid #d9d9d9; border-top: 5px solid #cccccc; height: 75px; }
+.header { background: #e4e4e4; border-bottom: 1px solid #d9d9d9; border-top: 5px solid #cccccc; height: 94px; }
 .header h1 { float: left; margin: 15px 0px 0px; }
 .header h1 a { font-weight: bold;  }
 
@@ -70,12 +70,12 @@ input:-ms-input-placeholder{color:#ccc;}
 
 
 /**** 导航菜单nav ***/
-.nav{ height: 40px; background:#3EAF0E; border-bottom: 1px solid #d9d9d9;}
+.nav{ height: 40px; background:#e4e4e4; border-bottom: 1px solid #d9d9d9;border-top: 2px solid #3EAF0E;}
 .nav .menu { margin: 0; font-size: 14px;}
 .nav .menu li { float: left; margin: 0px 0px 0px 25px; }
-.nav .menu li a{text-decoration:none;color: #fff; display: inline-block;vertical-align: top;height: 38px;line-height:38px;}
-.nav .menu li a:hover {text-decoration:none; border-bottom: 2px solid #FFF;color: #FFF;}
-.nav .menu .active{border-bottom: 2px solid #FFF;color: #FFF;font-weight: bold;}
+.nav .menu li a{text-decoration:none;color: #444; display: inline-block;vertical-align: top;height: 38px;line-height:38px;}
+.nav .menu li a:hover {text-decoration:none; border-bottom: 3px solid #3EAF0E;color: #3EAF0E;}
+.nav .menu .active{border-bottom: 2px solid #3EAF0E;color: #3EAF0E;font-weight: bold;}
 
 /*** Slideshow ***/
 .slideshow { background: #cccccc; height: 320px!important; margin: 0px 10px 25px; position: relative; -moz-box-shadow: 0 0 5px #888; -webkit-box-shadow: 0 0 5px#888; box-shadow: 0 0 5px #888;border: #cccccc solid 1px; overflow: hidden; }
