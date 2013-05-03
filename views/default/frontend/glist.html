@@ -121,28 +121,30 @@
 		</div>
 
 		{if:count($goods_list)}
-		<div>
+		<div style="display:none;">
 			<!-- 排序选择 -->
 			<ul class="sort clearfix">	
 				<li class="tabitem"><a href="#" class="on" target="_self">最近上架</a></li>	
 				<li class="tabitem"><a class="active" href="#" target="_self">最受好评</a></li>	
 			</ul>
 		</div>
-		<div class="pagination"></div>
+		<div class="pagination" style="margin-top:20px;margin-bottom:20px;"></div>
 		<div id="itemContainer" class="row clearfix">
 			{foreach:items=$goods_list item=$goods}
 			<div class="column" {if:$key%4==0} style="margin-left:0;"{/if}>
-				<div class="image">
-					<a href="{$goods['url']}" title="{$goods['name']}" target="_blank">
-						<img src="img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
-					</a>
-				</div>
-				<p class="pro_price">
-					<strong class="new_price">￥{$goods['sell_price']}</strong>
-					原价：<span class="old_price">{$goods['market_price']}</span>
-				</p>
-				<p><a href="{$goods['url']}" title="{$goods['name']}" target="_blank">{echo:IString::substr($goods['name'],42,'....')}</a></p>
-				<p class="sub_tip">{$goods['notes']}</p>
+				<p class="from" style="display:none;">{$goods['bname']}</p>
+				<a href="{$goods['url']}" title="{$goods['name']}" target="_blank">
+					<div class="image">
+							<img src="img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
+					</div>
+					<p class="name">{echo:IString::substr($goods['name'],42,'....')}</p>
+					<p class="pro_price">
+						<strong class="new_price">￥{$goods['sell_price']}</strong>
+						原价：<span class="old_price">{$goods['market_price']}</span>
+					</p>
+					<p class="brand">品牌：{$goods['bname']}</p>
+					<p class="volume">销量：{$goods['total_volume']}</p>
+				</a>
 			</div>
 			{/foreach}
 		</div>

@@ -54,9 +54,10 @@ class Frontend extends IController
 					continue;
 
 				$cids = substr($cids,0,-1); 
-				$sql = "SELECT DISTINCT({$this->tablePre}goods.id),{$this->tablePre}goods.name,{$this->tablePre}goods.notes,{$this->tablePre}goods.sell_price,{$this->tablePre}goods.market_price,{$this->tablePre}goods.from,{$this->tablePre}goods.list_img,{$this->tablePre}goods.url 
+				$sql = "SELECT DISTINCT({$this->tablePre}goods.id),{$this->tablePre}goods.*,{$this->tablePre}brand.name as bname 
 				FROM {$this->tablePre}goods
 				LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}goods.id = {$this->tablePre}category_extend.goods_id
+				LEFT JOIN {$this->tablePre}brand ON {$this->tablePre}brand.id={$this->tablePre}goods.brand_id
 				LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category_extend.category_id = {$this->tablePre}category.id
 				WHERE {$this->tablePre}goods.is_del=0 AND {$this->tablePre}category_extend.category_id IN ($cids)
 				ORDER BY {$this->tablePre}goods.sort ASC
@@ -153,13 +154,14 @@ class Frontend extends IController
 					WHERE {$where}";
 			$all_goods_list = $categoryObj->query_sql($sql); 
 
-			$fields = " DISTINCT({$this->tablePre}goods.id),{$this->tablePre}category.parent_id,{$this->tablePre}goods.*,{$this->tablePre}category.id as cid ";
+			$fields = " DISTINCT({$this->tablePre}goods.id),{$this->tablePre}category.parent_id,{$this->tablePre}goods.*,{$this->tablePre}category.id as cid,{$this->tablePre}brand.name as bname ";
 			if($word && !$cids){
 				$fields .= ",{$this->tablePre}category.name as cname";
 			}
 			// 获取商品列表
 			$sql = "SELECT {$fields} FROM {$this->tablePre}goods
 					LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}category_extend.goods_id={$this->tablePre}goods.id
+					LEFT JOIN {$this->tablePre}brand ON {$this->tablePre}brand.id={$this->tablePre}goods.brand_id
 					LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category.id={$this->tablePre}category_extend.category_id
 					WHERE {$where}
 					ORDER BY {$this->tablePre}goods.sort ASC
