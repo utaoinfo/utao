@@ -42,7 +42,7 @@ $(function(){
 		showHotWords();
 	},50*1000);
 });
-var searchUrl = "/?controller=frontend&action=search";
+var searchUrl = "/?controller=frontend&action=glist";
 var testInput = document.createElement("input");
 var placeholderSupport = 1;
 if(!('placeholder' in testInput))

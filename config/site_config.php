@@ -8,9 +8,9 @@
   'order_by' => 'new',
   'order_type' => 'asc',
   'list_type' => 'win',
-  'list_num' => '9',
+  'list_num' => '10',
   'auto_finish' => '1',
-  'index_slide' => 'a:3:{i:0;a:3:{s:4:"name";s:33:"新设计，新内核，新起点";s:3:"url";s:21:"http://www.jooyea.net";s:3:"img";s:39:"upload/2013/05/01/20130501121818800.jpg";}i:1;a:3:{s:4:"name";s:18:"开源电子商务";s:3:"url";s:21:"http://www.jooyea.net";s:3:"img";s:39:"upload/2013/04/30/20130430093745658.jpg";}i:2;a:3:{s:4:"name";s:21:"电子商务新起点";s:3:"url";s:22:"http://jwww.jooyea.net";s:3:"img";s:39:"upload/2013/05/01/20130501121935731.jpg";}}',
+  'index_slide' => 'a:4:{i:0;a:3:{s:4:"name";s:9:"新设计";s:3:"url";s:91:"http://www.cnblogs.com/lhb25/archive/2012/08/08/ajax-jquery-pagination-plugin-tutorial.html";s:3:"img";s:39:"upload/2013/05/03/20130503124831841.jpg";}i:1;a:3:{s:4:"name";s:3:"222";s:3:"url";s:91:"http://www.cnblogs.com/lhb25/archive/2012/08/08/ajax-jquery-pagination-plugin-tutorial.html";s:3:"img";s:39:"upload/2013/05/03/20130503124835831.jpg";}i:2;a:3:{s:4:"name";s:9:"新起点";s:3:"url";s:91:"http://www.cnblogs.com/lhb25/archive/2012/08/08/ajax-jquery-pagination-plugin-tutorial.html";s:3:"img";s:39:"upload/2013/05/03/20130503124844989.jpg";}i:3;a:3:{s:4:"name";s:2:"vv";s:3:"url";s:91:"http://www.cnblogs.com/lhb25/archive/2012/08/08/ajax-jquery-pagination-plugin-tutorial.html";s:3:"img";s:39:"upload/2013/05/03/20130503125122567.jpg";}}',
   'list_thumb_width' => '175',
   'list_thumb_height' => '175',
   'show_thumb_width' => '100',
@@ -31,5 +31,12 @@
   'index_seo_keywords' => 'ggggggg',
   'index_seo_description' => 'hhhhhh',
   'goods_no_pre' => '',
-  'price_range'=>array(0=>0,1=>100,2=>300,3=>500,4=>1000)
+  'price_range' => 
+  array (
+    0 => 0,
+    1 => 100,
+    2 => 300,
+    3 => 500,
+    4 => 1000,
+  ),
 )?>

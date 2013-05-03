@@ -67,10 +67,10 @@
 						<dt>类别：</dt>
 						<dd>
 							<dl>
-								<dt><strong><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_0_{$forth_cid}_{$bid}_{$prid}">全部</a></strong></dt>
+								<dt><strong><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_0_{$forth_cid}_{$bid}_{$prid}&kw={$kw}">全部</a></strong></dt>
 								{foreach:items=$subcat item=$cat}
 
-								<dd><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$cat['id']}_{$forth_cid}_{$bid}_{$prid}" >{$cat['name']}</a></dd>
+								<dd><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$cat['id']}_{$forth_cid}_{$bid}_{$prid}&kw={$kw}" >{$cat['name']}</a></dd>
 
 								{/foreach}
 							</dl>
@@ -86,9 +86,9 @@
 						<dt>品牌：</dt>
 						<dd>
 							<dl>
-								<dt><strong><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_0_{$prid}">全部</a></strong></dt>
+								<dt><strong><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_0_{$prid}&kw={$kw}">全部</a></strong></dt>
 								{foreach:items=$brands item=$brand}
-								<dd><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$brand['id']}_{$prid}" >{$brand['name']}</a></dd>
+								<dd><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$brand['id']}_{$prid}&kw={$kw}" >{$brand['name']}</a></dd>
 								{/foreach}
 								
 							</dl>
@@ -104,11 +104,11 @@
 						<dt>价格：</dt>
 						<dd>
 							<dl>
-								<dt><strong><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0" >全部</a></strong></dt>
+								<dt><strong><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0&kw={$kw}" >全部</a></strong></dt>
 								{foreach:items=$price_range item=$range}
 								{if:$key!=0}
 								{set:$currentRange= $range-1;}
-								<dd><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$key}" >{$lastRange}-{$currentRange}</a></dd>
+								<dd><a href="/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$key}&kw={$kw}" >{$lastRange}-{$currentRange}</a></dd>
 								{/if}
 								{set:$lastRange=$range}
 								{/foreach}
@@ -120,7 +120,6 @@
 				</li>
 			</ul>
 		</div>
-
 
 		{if:count($goods_list)}
 		<div>
@@ -167,9 +166,9 @@
 	</div>
 </div><!-- // end #fppter -->
 	
-	
 </body>
 </html>
+
 <script type="text/javascript">
 $(function(){
 	$('.menu').find('a[href*="ids={$top_cid}_{$second_cid}_"]').addClass('active');
@@ -189,7 +188,7 @@ $(function(){
 	});
 
 	$(".pagination").paginate({
-		count 		: Math.ceil({$goodsNum}/40),
+		count 		: Math.ceil({$goodsNum}/10),
 		start 		: parseInt({$page})+1,
 		display     : 13,
 		border		: false,
@@ -200,7 +199,7 @@ $(function(){
 		images					: false,
 		mouse					: 'press',
 		onChange				: function(page){
-			document.location.href = "/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}&page="+(page-1);
+			document.location.href = "/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}&kw={$kw}&page="+(page-1);
 			return false;
 		}
 	});
