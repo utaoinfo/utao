@@ -178,7 +178,6 @@ class Frontend extends IController
 				$sql  = "SELECT id,name FROM {$this->tablePre}category WHERE parent_id={$second_cid}";
 				$subcat = $categoryObj->query_sql($sql);
 			}
-	
 			if(!$cids && count($goods_list)>0){
 				$top_cids = array();
 				$top_cat_info = array();
@@ -195,6 +194,8 @@ class Frontend extends IController
 				}
 
 				foreach ($goods_list as $key => $item) {
+					if(!$item['cid'])
+						continue;
 					// 取2级类
 					if( in_array($item['parent_id'],$top_cids)){
 						$second_cids[$item['cid']] = $item['cid'];
