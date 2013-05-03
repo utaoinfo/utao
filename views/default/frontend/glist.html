@@ -10,6 +10,8 @@
 	<!--[if IE]><link href="css/style-ie.css" rel="stylesheet" type="text/css" /><![endif]-->
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.lazyload.js"></script>
+	<script type="text/javascript" src="js/jquery.paginate.js"></script>
+	<link href="css/jpage.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/page.js"></script>
 </head>
 <body>
@@ -145,6 +147,7 @@
 			</div>
 			{/foreach}
 		</div>
+		<div id="pagination"></div>
 		{else:}
 		<div style="height:300px;line-height:300px;text-align:center;">
 			{if:$prid}
@@ -182,6 +185,23 @@ $(function(){
 			$(this).find('a').html('展开↓');
 			parent.addClass('less');
 		}	
+	});
+
+	$("#pagination").paginate({
+		count 		: Math.ceil({$goodsNum}/40),
+		start 		: parseInt({$page})+1,
+		display     : 13,
+		border		: false,
+		background_color:'#f0f0f0',
+		text_color  			: '#333',
+		background_hover_color	: '#3EAF0E',	
+		text_hover_color  		: '#FFF',
+		images					: false,
+		mouse					: 'press',
+		onChange				: function(page){
+			document.location.href = "/?controller=frontend&action=glist&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}&page="+(page-1);
+			return false;
+		}
 	});
 	$(".image img").lazyload({ 
 		effect: "fadeIn",

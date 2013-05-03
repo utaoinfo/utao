@@ -142,6 +142,14 @@ class Frontend extends IController
 			if($prid>0){
 				$where .= " AND {$this->tablePre}goods.sell_price>=".$this->site_config['price_range'][$prid-1] ." AND  {$this->tablePre}goods.sell_price<=".$this->site_config['price_range'][$prid];
 			}
+			// 取商品总数
+			$sql  = "SELECT DISTINCT({$this->tablePre}goods.id) FROM {$this->tablePre}goods
+					LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}category_extend.goods_id={$this->tablePre}goods.id
+					LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category.id={$this->tablePre}category_extend.category_id
+					WHERE {$where}";
+			$all_goods_list = $categoryObj->query_sql($sql); 
+
+
 			// 获取商品列表
 			$sql = "SELECT DISTINCT({$this->tablePre}goods.id),{$this->tablePre}goods.*,{$this->tablePre}category.id as cid FROM {$this->tablePre}goods
 					LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}category_extend.goods_id={$this->tablePre}goods.id
@@ -149,6 +157,7 @@ class Frontend extends IController
 					WHERE {$where}
 					ORDER BY {$this->tablePre}goods.sort ASC
 					LIMIT $start,$end ";
+				
 			$goods_list =  $categoryObj->query_sql($sql);
 
 			// 获取当前类别的一级子类
@@ -175,12 +184,9 @@ class Frontend extends IController
 					$sql = "SELECT * FROM {$this->tablePre}brand WHERE id IN($bids_string) ORDER BY {$this->tablePre}brand.sort ASC";
 					$brands =  $categoryObj->query_sql($sql);
 				}
-				
 			}
-			
 		}
 		
-
 		$data['goods_list'] = $goods_list;
 
 		$data['cname'] = $cname;
@@ -196,6 +202,7 @@ class Frontend extends IController
 		$data['price_range']  = count($this->site_config['price_range'])>0 ? $this->site_config['price_range'] : '';
 		$data['subcat']  = count($subcat)>0 ? $subcat : '';
 		$data['page'] = $page;
+		$data['goodsNum'] = count($all_goods_list);
 	
 		$this->setRenderData($data);
 		$this->redirect('glist');
