@@ -167,37 +167,6 @@ class Frontend extends IController
 	
 			$goods_list =  $categoryObj->query_sql($sql);
 
-			/*if(!$cids && count($goods_list)>0){
-				$top_cids = array();
-				$second_cids = array();
-				$third_cids = array();
-				// 取顶级类
-				foreach ($goods_list as $key => $item) {
-					if($item['parent_id']==0){
-						array_push($top_cids, $item['cid']);
-					}
-				}
-
-				// 取顶2级类
-				foreach ($goods_list as $key => $item) {
-					if( in_array($item['parent_id'],$top_cids)){
-						array_push($second_cids, $item['cid']);
-					}
-				}
-
-				// 取顶2级类
-				foreach ($goods_list as $key => $item) {
-					if( in_array($item['parent_id'],$second_cids)){
-						array_push($third_cids, $item['cid']);
-					}
-				}
-
-				print_r($top_cids);
-				print_r($second_cids);
-				print_r($third_cids);
-				exit();
-			}*/
-
 
 			// 获取二级类的名称
 			if($second_cid){
@@ -210,6 +179,47 @@ class Frontend extends IController
 				$subcat = $categoryObj->query_sql($sql);
 			}
 	
+			if(!$cids && count($goods_list)>0){
+				$top_cids = array();
+				$top_cat_info = array();
+				$second_cids = array();
+				$second_cat_info = array();
+				$third_cids = array();
+				$third_cat_info = array();
+				// 取顶级类
+				foreach ($goods_list as $key => $item) {
+					if($item['parent_id']==0){
+						$top_cids[$item['cid']] = $item['cid'] ;
+						$top_cat_info[$item['cid']] = $item;
+					}
+				}
+
+				foreach ($goods_list as $key => $item) {
+					// 取2级类
+					if( in_array($item['parent_id'],$top_cids)){
+						$second_cids[$item['cid']] = $item['cid'];
+						$second_cat_info[$item['cid']] = $item;
+					}else{
+						$third_cids[$item['cid']] = $item['cid'];
+						$third_cat_info[$item['cid']] = $item;
+					}
+				}
+
+				if(count($third_cids)>0){
+					$cids = implode(',', $third_cids);
+					$subcat = $third_cat_info;
+				}elseif(count($second_cids)>0){
+					$cids = implode(',', $second_cids);
+					$subcat = $second_cat_info;
+				}elseif(count($top_cids)>0){
+					$cids = implode(',', $top_cids);
+					$subcat = $top_cat_info;
+					
+				}
+
+			}
+
+
 
 			// 获取品牌id
 			if( $cids ){
