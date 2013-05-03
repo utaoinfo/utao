@@ -41,7 +41,7 @@
                     <input id="kwInput" value="" placeholder="输入想查询的词" name="" type="text">
                 </span>
             </div>
-            <a class="z_btn_bf" id="searchBtn" href="javascript:;" title="播放" onclick="return false;">搜索</a>
+            <a class="z_btn_bf" id="searchBtn" href="javascript:;" title="搜索" onclick="return false;">搜索</a>
         </div>
 	</div>
 </div><!-- // end #header -->
@@ -81,7 +81,7 @@
 		<div  class="row clearfix">
 			{foreach:items=$category_goods item=$goods}
 			{if:$key!=='cname'}
-			<div class="column" {if:$key%5==0}style="margin-left:0;"{/if}>
+			<div class="column {if:$key%4==0}last{/if}">
 				<div class="image">
 					<a href="{$goods['url']}" title="{$goods['name']}" target="_blank">
 						<img src="img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />

@@ -42,7 +42,7 @@ class Frontend extends IController
 		$categoryObj = new IModel('category');
 
 		// 获取前四个分类
-		$sql  = "SELECT id,name FROM {$this->tablePre}category WHERE parent_id IN (SELECT id FROM {$this->tablePre}category WHERE parent_id=0 ) ORDER BY sort ASC LIMIT 5";
+		$sql  = "SELECT id,name FROM {$this->tablePre}category WHERE parent_id IN (SELECT id FROM {$this->tablePre}category WHERE parent_id=-1 ) ORDER BY sort ASC LIMIT 5";
 		$categories =  $categoryObj->query_sql($sql);
 
 		$goods_list = array();
@@ -60,7 +60,7 @@ class Frontend extends IController
 				LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category_extend.category_id = {$this->tablePre}category.id
 				WHERE {$this->tablePre}goods.is_del=0 AND {$this->tablePre}category_extend.category_id IN ($cids)
 				ORDER BY {$this->tablePre}goods.sort ASC
-				LIMIT 5";
+				LIMIT 4";
 				
 				$goods =  $categoryObj->query_sql($sql);
 				if(count($goods)>0){
@@ -188,7 +188,7 @@ class Frontend extends IController
 				$third_cat_info = array();
 				// 取顶级类
 				foreach ($goods_list as $key => $item) {
-					if($item['parent_id']==0){
+					if($item['parent_id']==-1){
 						$top_cids[$item['cid']] = $item['cid'] ;
 						$top_cat_info[$item['cid']] = $item;
 					}
@@ -259,6 +259,7 @@ class Frontend extends IController
 		$data['price_range']  = count($this->site_config['price_range'])>0 ? $this->site_config['price_range'] : '';
 		$data['subcat']  = count($subcat)>0 ? $subcat : '';
 		$data['page'] = $page;
+		$data['pagesize'] = $pagesize;
 		$data['goodsNum'] = count($all_goods_list);
 	
 		$this->setRenderData($data);

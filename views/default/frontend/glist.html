@@ -11,7 +11,6 @@
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.lazyload.js"></script>
 	<script type="text/javascript" src="js/jquery.paginate.js"></script>
-	<link href="css/jpage.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="js/page.js"></script>
 </head>
 <body>
@@ -132,7 +131,7 @@
 		<div class="pagination"></div>
 		<div id="itemContainer" class="row clearfix">
 			{foreach:items=$goods_list item=$goods}
-			<div class="column" {if:$key%5==0} style="margin-left:0;"{/if}>
+			<div class="column" {if:$key%4==0} style="margin-left:0;"{/if}>
 				<div class="image">
 					<a href="{$goods['url']}" title="{$goods['name']}" target="_blank">
 						<img src="img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
@@ -142,7 +141,7 @@
 					<strong class="new_price">￥{$goods['sell_price']}</strong>
 					原价：<span class="old_price">{$goods['market_price']}</span>
 				</p>
-				<p><a href="{$goods['url']}" title="{$goods['name']}" target="_blank">{echo:IString::substr($goods['name'],25,'....')}</a></p>
+				<p><a href="{$goods['url']}" title="{$goods['name']}" target="_blank">{echo:IString::substr($goods['name'],42,'....')}</a></p>
 				<p class="sub_tip">{$goods['notes']}</p>
 			</div>
 			{/foreach}
@@ -188,7 +187,7 @@ $(function(){
 	});
 
 	$(".pagination").paginate({
-		count 		: Math.ceil({$goodsNum}/10),
+		count 		: Math.ceil({$goodsNum}/{$pagesize}),
 		start 		: parseInt({$page})+1,
 		display     : 13,
 		border		: false,
