@@ -85,7 +85,7 @@ class goods_class
 			'down_time'		=>	$goods_info['down_time'],
 			'sell_price'	=>	$goods_info['sell_price'],
 			'market_price'	=>	$goods_info['market_price'],
-			'cost_price'	=>	$goods_info['cost_price'],
+			'discount'	=>	$goods_info['discount'],
 			'store_nums'	=>	$goods_info['store_nums'],
 			'weight'		=>	$goods_info['weight'],
 			'unit'			=>	$goods_info['unit'],

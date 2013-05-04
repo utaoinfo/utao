@@ -25,18 +25,26 @@
 			{if:$key!=='cname'}
 			<div class="column" {if:$key%4==0} style="margin-left:0;"{/if}>
 				<p class="from" style="display:none;">{$goods['bname']}</p>
-				<a href="{$goods['url']}" title="{$goods['name']}" target="_blank">
+				<a href="/buy.html?gid={$goods['id']}" title="{$goods['name']}" target="_blank">
 					<div class="image">
 							<img src="img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
 					</div>
-					<p class="name">{echo:IString::substr($goods['name'],42,'....')}</p>
+					
 					<p class="pro_price">
-						<strong class="new_price">￥{$goods['sell_price']}</strong>
-						原价：<span class="old_price">{$goods['market_price']}</span>
+						<strong class="new_price">
+							￥{$goods['sell_price']}
+							
+							{if:$goods['discount']<9.5}
+							<span style="color:grey">(</span><span style="color:green">{$goods['discount']}折</span><span style="color:grey">)</span>
+							{/if}
+						</strong>
+						<span class="old_price">￥{$goods['market_price']}</span>
 					</p>
 				</a>
-				<p class="volume">销量：{$goods['total_volume']}</p>
-				<p class="brand">品牌：<a href="/glist.html?ids=0_0_0_0_$goods[brand_id]_0">{$goods['bname']}</a></p>
+				<p class="name">{echo:IString::substr($goods['name'],42,'....')}</p>
+				<p class="volume">月销量：{$goods['volume']}</p>
+				<p class="brand">品牌：<a href="/glist.html?ids=0_0_0_0_{$goods['brand_id']}_0&kw={$kw}">{$goods['bname']}</a></p>
+				<p class="gobuy"><a href="/buy.html?gid={$goods['id']}" title="去看看" target="_blank">去看看</a></p>
 			</div>
 			{/if}
 			{/foreach}
@@ -52,7 +60,7 @@
 	$(function(){
 		$(".image img").lazyload();
 
-		$(".slideshow img").lazyload({
+		$("#slideshow img").lazyload({
 			load:function(){
 					$('#slideshow').nivoSlider({
 						directionNav: false,

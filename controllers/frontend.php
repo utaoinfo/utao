@@ -71,9 +71,9 @@ class Frontend extends IController
 			}
 		}
 	
-		$data['title'] = isset($site_config['index_seo_title'])? $site_config['index_seo_title']:'';
-		$data['description'] = isset($site_config['index_seo_description'])? $site_config['index_seo_description']:'';
-		$data['keywords'] = isset($site_config['index_seo_keywords'])? $site_config['index_seo_keywords']:'';
+		$data['title'] = '';
+		$data['description'] = '';
+		$data['keywords'] = '';
 		$data['slide'] = $index_slide;
 		//$data['guide_list'] = $guide_list;
 		$data['goods_list'] = $goods_list;
@@ -90,7 +90,11 @@ class Frontend extends IController
 	*/
 	public function glist(){
 		
-		$goods_list = array();
+		$sort_type_map = array(
+			'0'=> "{$this->tablePre}goods.sort ASC",
+			'1'=> "{$this->tablePre}goods.volume DESC",
+			'2'=> "{$this->tablePre}goods.discount ASC"
+		);
 		$ids = IFilter::act(IReq::get('ids'));
 		if($ids){
 			$arr_ids = explode('_', $ids);
@@ -112,9 +116,12 @@ class Frontend extends IController
 		$word = IFilter::act(IReq::get('kw'));
 		$page = IFilter::act(IReq::get('page'),'int');
 		$pagesize = $this->site_config['list_num'];
+		$sort = IFilter::act(IReq::get('sort'),'int');
+		$order_by  = $sort_type_map[$sort] ? $sort_type_map[$sort] : "{$this->tablePre}goods.sort ASC";
 		$start = $page*$pagesize;
 
 		$all_goods_list = array();
+		$goods_list = array();
 		$data = array();
 		$brands = array();
 		$subcat = array();
@@ -180,7 +187,7 @@ class Frontend extends IController
 				$where .= " AND {$this->tablePre}goods.sell_price>=".$this->site_config['price_range'][$prid-1] ." AND  {$this->tablePre}goods.sell_price<=".$this->site_config['price_range'][$prid];
 			}
 			// 取商品总数
-			$sql  = "SELECT DISTINCT({$this->tablePre}goods.id) FROM {$this->tablePre}goods
+			$sql  = "SELECT DISTINCT({$this->tablePre}goods.id),{$this->tablePre}category.parent_id,{$this->tablePre}category.name as cname,{$this->tablePre}category.id as cid FROM {$this->tablePre}goods
 					LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}category_extend.goods_id={$this->tablePre}goods.id
 					LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category.id={$this->tablePre}category_extend.category_id
 					WHERE {$where}";
@@ -196,7 +203,7 @@ class Frontend extends IController
 					LEFT JOIN {$this->tablePre}brand ON {$this->tablePre}brand.id={$this->tablePre}goods.brand_id
 					LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category.id={$this->tablePre}category_extend.category_id
 					WHERE {$where}
-					ORDER BY {$this->tablePre}goods.sort ASC
+					ORDER BY $order_by
 					LIMIT $start,$pagesize";
 	
 			$goods_list =  $categoryObj->query_sql($sql);
@@ -209,10 +216,10 @@ class Frontend extends IController
 				$cname = count($second_catinfo )>0 ? $second_catinfo[0]['name'] : '';
 
 				// 获取3级类
-				$sql  = "SELECT id,name FROM {$this->tablePre}category WHERE parent_id={$second_cid}";
+				$sql  = "SELECT id,name FROM {$this->tablePre}category WHERE parent_id={$second_cid} ORDER BY {$this->tablePre}category.sort ASC";
 				$subcat = $categoryObj->query_sql($sql);
 			}
-			if(!$cids && count($goods_list)>0){
+			if(!$cids && count($all_goods_list)>0){
 				$top_cids = array();
 				$top_cat_info = array();
 				$second_cids = array();
@@ -220,23 +227,23 @@ class Frontend extends IController
 				$third_cids = array();
 				$third_cat_info = array();
 				// 取顶级类
-				foreach ($goods_list as $key => $item) {
+				foreach ($all_goods_list as $key => $item) {
 					if($item['parent_id']==-1){
 						$top_cids[$item['cid']] = $item['cid'] ;
-						$top_cat_info[$item['cid']] = $item;
+						$top_cat_info[$item['cid']] = array('name'=>$item['cname'],'id'=>$item['cid']);
 					}
 				}
 
-				foreach ($goods_list as $key => $item) {
+				foreach ($all_goods_list as $key => $item) {
 					if(!$item['cid'])
 						continue;
 					// 取2级类
 					if( in_array($item['parent_id'],$top_cids)){
 						$second_cids[$item['cid']] = $item['cid'];
-						$second_cat_info[$item['cid']] = $item;
+						$second_cat_info[$item['cid']] = array('name'=>$item['cname'],'id'=>$item['cid']);
 					}else{
 						$third_cids[$item['cid']] = $item['cid'];
-						$third_cat_info[$item['cid']] = $item;
+						$third_cat_info[$item['cid']] = array('name'=>$item['cname'],'id'=>$item['cid']);
 					}
 				}
 
@@ -288,6 +295,7 @@ class Frontend extends IController
 		$data['bid'] = $bid;
 		$data['prid'] = $prid;
 		$data['kw'] = $word;
+		$data['sort'] = $sort;
 
 		$data['brands'] = count($brands)>0 ? $brands : '';
 		$data['price_range']  = count($this->site_config['price_range'])>0 ? $this->site_config['price_range'] : '';
@@ -295,10 +303,36 @@ class Frontend extends IController
 		$data['page'] = $page;
 		$data['pagesize'] = $pagesize;
 		$data['goodsNum'] = count($all_goods_list);
+
+		$data['title'] = $cname." 优淘(www.utao.info)商品列表";
+		$data['description'] = '';
+		$data['keywords'] = '';
 	
 		$this->setRenderData($data);
 		$this->redirect('glist');
 	}
 
+	/**
+	*	列表展示
+	*	@author keenhome@126.com
+	*	@date 2013-4-30
+	*/
+	public function buy(){
+		$gid = IFilter::act(IReq::get('gid'),'int');
+		$tb_goods = new IModel('goods');
+		//增加点击次数
+		if(!ISafe::get('visit'.$gid)){
+			
+			$tb_goods->setData(array('click' => 'click + 1'));
+			$tb_goods->update('id = '.$gid,'click');
+			ISafe::set('click'.$gid,'1');
+		}
+		$goodsRow = $tb_goods->getObj('ID = '.$gid,'url');
+		if($goodsRow['url']){
+			header("Location:".$goodsRow['url']);
+		}else{
+			header("Location:/");
+		}
+	}
 
 }

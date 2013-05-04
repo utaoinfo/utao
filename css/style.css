@@ -84,21 +84,24 @@ input:-ms-input-placeholder{color:#ccc;}
 #slideshow .nivo-controlNav .nivo-control.active { background: url(../images/bullets.png) no-repeat scroll 0 -22px; }
 /*** 列表项 ***/
 .row .column {background:#efefef;position: relative; -moz-box-shadow: 0 0 2px #ccc; -webkit-box-shadow: 0 0 2px #ccc; box-shadow: 0 0 5px #ccc; float: left; margin-left:45px;margin-bottom: 25px; width: 220px;height: 300px; }
-.row .column:hover{cursor:pointer;-moz-box-shadow: 0 0 5px #3EAF0E; -webkit-box-shadow: 0 0 5px#3EAF0E; box-shadow: 0 0 5px #3EAF0E;}
+.row .column:hover{-moz-box-shadow: 0 0 5px #3EAF0E; -webkit-box-shadow: 0 0 5px#3EAF0E; box-shadow: 0 0 5px #3EAF0E;}
 .row .column .last { margin-left: 0px; }
 .row .column a{text-decoration: none;}
 .row .column p{padding: 5px;}
 .row .column .volume,.name,.from,.brand{position: absolute;}
 .row .column .from{left:0px;top: 0px;background:#3EAF0E;height: 18px;color: #FFF; }
-.row .column .name{left:0;bottom: 0px;width: 210px;height:300px;filter: alpha(opacity=0);-khtml-opacity: 0;-moz-opacity: 0;opacity: 0;background: rgba(255, 255, 255, 0.7);border-top: 1px solid rgba(0, 0, 0, 0.1);-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;transition: all 0.3s ease-out;}
+.row .column .name{left:0;bottom: 0px;width: 210px;height:40px;filter: alpha(opacity=0);-khtml-opacity: 0;-moz-opacity: 0;opacity: 0;background: #efefef;border-top: 1px solid rgba(0, 0, 0, 0.1);-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;transition: all 0.3s ease-out;}
 .row .column:hover .name{height: 40px;bottom: 80px;filter: alpha(opacity=1);-khtml-opacity: 1;-moz-opacity: 1;opacity:1;}
 .row .column .image { height: 220px; width: 220px; margin-bottom: 2px; overflow: hidden; }
 .row .column .image img{ height:220px;width:220px;}
 .row .column .pro_price {color: #636362;}
-.row .column .pro_price .new_price {color:#FF4500;font-size: 18px;font-weight: normal;margin: 0 4px 0 0;}
-.row .column .pro_price .old_price {text-decoration: line-through;}
-.row .column .brand{left:0px;bottom: 25px;}
-.row .column .volume{right:25px;bottom: 25px;}
+.row .column .pro_price .new_price {color:#FF4500;font-size: 18px;font-weight: normal;margin: 0 2px 0 0;}
+.row .column .pro_price .old_price {text-decoration: line-through;float: right;}
+.row .column .volume{left:0px;bottom: 25px;}
+.row .column .brand{left:0px;bottom: 2px;}
+.row .column .gobuy{left:100px;bottom: 1px;}
+.row .column .gobuy a{width:80px;height:30px;line-height:30px;font-size:14px;color: #fff;display: block;background: url("../img/spr_icon.png") no-repeat;background-position: 0 -169px;float: right;text-align: center;}
+.row .column .gobuy a:hover{background-position: 0 -199px;}
 .row .column .sub_tip {color: #F58A00;}
 
 /*分割线*/

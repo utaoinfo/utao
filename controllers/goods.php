@@ -223,7 +223,7 @@ class Goods extends IController
 
 		$sell_price = IFilter::act(IReq::get('sell_price'),'float');
 		$market_price = IFilter::act(IReq::get('market_price'),'float');
-		$cost_price = IFilter::act(IReq::get('cost_price'),'float');
+		$discount = IFilter::act(IReq::get('discount'),'float');
 		$store_nums = IFilter::act(IReq::get('store_nums'),'int');
 		$weight = IFilter::act(IReq::get('weight'),'float');
 		$store_unit = IFilter::act(IReq::get('store_unit'));
@@ -301,7 +301,7 @@ class Goods extends IController
 			'goods_no'=>$goods_no,
 			'sell_price' =>$sell_price,
 			'market_price' => $market_price,
-			'cost_price' => $cost_price,
+			'discount' => $discount,
 			'store_nums' =>$store_nums,
 			'brand_id' =>$goods_brand,
 			'content'=>$content,
@@ -457,7 +457,7 @@ class Goods extends IController
 
 		$sell_price = IFilter::act(IReq::get('sell_price'),'float');
 		$market_price = IFilter::act(IReq::get('market_price'),'float');
-		$cost_price = IFilter::act(IReq::get('cost_price'),'float');
+		$discount = IFilter::act(IReq::get('discount'),'float');
 		$store_nums = IFilter::act(IReq::get('store_nums'),'int');
 		$weight = IFilter::act(IReq::get('weight'),'float');
 		$store_unit = IFilter::act(IReq::get('store_unit'));
@@ -608,7 +608,7 @@ class Goods extends IController
 			'goods_no'=>$goods_no,
 			'sell_price' =>$sell_price,
 			'market_price' => $market_price,
-			'cost_price' => $cost_price,
+			'discount' => $discount,
 			'store_nums' =>$store_nums,
 			'brand_id' =>$goods_brand,
 			'is_del' =>$goods_status,
@@ -707,7 +707,7 @@ class Goods extends IController
 		{
 			$sell_price_array = array();//所有货品的销售价格
 			$market_price_array = array();//所有货品的市场价格
-			$cost_price_array = array();//所有货品的成本价格
+			$discount_array = array();//所有货品的成本价格
 			$weight_array = array();//所有货品的重量
 			$arr = explode(';',$spec_va);
 			$i=0;
@@ -750,14 +750,14 @@ class Goods extends IController
 						'market_price'=>IReq::get('market_price'.$pro_id)?IReq::get('market_price'.$pro_id):$market_price,
 						'sell_price'=>IReq::get('sell_price'.$pro_id)?IReq::get('sell_price'.$pro_id):$sell_price,
 						'store_nums'=>IReq::get('store_nums'.$pro_id)?IReq::get('store_nums'.$pro_id):$store_nums,
-						'cost_price'=>IReq::get('cost_price'.$pro_id)?IReq::get('cost_price'.$pro_id):$cost_price,
+						'discount'=>IReq::get('discount'.$pro_id)?IReq::get('discount'.$pro_id):$discount,
 						'weight'=>IReq::get('weight'.$pro_id)?IReq::get('weight'.$pro_id):$weight,
 						'spec_md5' =>$spec_md5
 					));
 					//获得所有的货品的销售价格、市场价格、成本价格、货品的重量
 					$sell_price_array[] = IReq::get('sell_price'.$pro_id)?IReq::get('sell_price'.$pro_id):$sell_price;
 					$market_price_array[] = IReq::get('market_price'.$pro_id)?IReq::get('market_price'.$pro_id):$market_price;
-					$cost_price_array[] = IReq::get('cost_price'.$pro_id)?IReq::get('cost_price'.$pro_id):$cost_price;
+					$discount_array[] = IReq::get('discount'.$pro_id)?IReq::get('discount'.$pro_id):$discount;
 					$weight_array[] = IReq::get('weight'.$pro_id)?IReq::get('weight'.$pro_id):$weight;
 					$mem_array = explode(',',$member_ids);
 					if(strpos('|'.$new_pro,'a')>0)
@@ -833,9 +833,9 @@ class Goods extends IController
 			{
 				$addition['market_price'] = min($market_price_array);
 			}
-			if(!empty($cost_price_array))
+			if(!empty($discount_array))
 			{
-				$addition['cost_price'] = min($cost_price_array);
+				$addition['discount'] = min($discount_array);
 			}
 			if(!empty($weight_array))
 			{
