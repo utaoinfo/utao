@@ -1,70 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="description" content="{$description}" />
-    <meta name="keywords" content="{$keywords}" />
-    <title>{$title}</title>	
-    <link href="css/style.css" rel="stylesheet" type="text/css" />	
-	<link href="css/nivo-slider.css" rel="stylesheet" type="text/css" />
-    <!--[if IE]><link href="css/style-ie.css" rel="stylesheet" type="text/css" /><![endif]-->
-	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery.nivo.slider.js"></script>
-	<script type="text/javascript" src="js/jquery.lazyload.js"></script>
-	<script type="text/javascript" src="js/page.js"></script>
-	<script type="text/javascript">
-		$(window).load(function() {
-			$('#slideshow').nivoSlider({
-				directionNav: false,
-				directionNav:true,
-				controlNav:true
-			});
-			$("#slideshow img,.image img").lazyload();
-		});
-	</script>
-</head>
-
-<body>
-
-<div class="header">
-	<div class="container">
-		<h1 style="margin:0;">
-			<a href="/" title="utao">
-				<img style="width:120p;height:50px;" src="img/logo.gif" alt="utao" />
-			</a>
-		</h1>
-		<div class="z_b_wrap">
-            <div class="z_txtwrap">
-                <span class="z_s_l"></span>
-                <span class="z_s_r"></span>
-                <span class="text">
-                    <span name="kwPlaceholder" class="z_input_lab" style="display:none;">输入想查询的词</span>
-                    <input id="kwInput" value="" placeholder="输入想查询的词" name="" type="text">
-                </span>
-            </div>
-            <a class="z_btn_bf" id="searchBtn" href="javascript:;" title="搜索" onclick="return false;">搜索</a>
-        </div>
-	</div>
-</div><!-- // end #header -->
-<div class="nav">
-	<div class="container">
-		{if:$this->guide_list}
-		<ul class="menu fl">
-			<li><a href="/" title="首页"  class="active">首页</a></li>
-			{foreach:items=$this->guide_list}	
-			<li ><a href="{$item['link']}" title="{$item['name']}">{$item['name']}</a></li>
-			{/foreach}
-		</ul>
-		{/if}
-	</div>
-</div><!-- // end nav -->
-
 <div class="main">
 	<div class="container">
 		{if:count($slide)}
 		<div id="slideshow" class="slideshow">
 			{foreach:items=$slide}
-			<a href="{$item['url']}" title="{$item['name']}" target="_blank"><img src="{webroot:$item[img]}" alt="{$item['name']}" /></a>
+			<a href="{$item['url']}" title="{$item['name']}" target="_blank">
+				<img src="img/no_pic.gif" data-original="{webroot:$item[img]}" alt="{$item['name']}" />
+			</a>
 			{/foreach}
 		</div>
 
@@ -106,13 +47,21 @@
 		{/if}
 	</div>
 </div><!-- // end #main -->
+<script type="text/javascript" src="js/jquery.nivo.slider.js"></script>
+<script type="text/javascript">
+	$(window).load(function() {
+		$(".image img").lazyload();
 
-<div class="footer">
-	<div class="container">
-
-	</div>
-</div><!-- // end #fppter -->
-	
-</body>
-</html>
+		$(".slideshow img").lazyload({
+			load:function(){
+				$('#slideshow').nivoSlider({
+					directionNav: false,
+					directionNav:true,
+					controlNav:true
+				});
+			}
+		});
+		
+	});
+</script>
 

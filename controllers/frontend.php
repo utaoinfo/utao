@@ -137,7 +137,38 @@ class Frontend extends IController
 			}
 
 			if($word && $word != '%' && $word != '_'){
-				$where .= " AND {$this->tablePre}goods.name LIKE '%{$word}%'";
+				$where .= " AND ( {$this->tablePre}goods.name LIKE '%{$word}%' OR {$this->tablePre}goods.sellernick
+ LIKE '%{$word}%' ) ";
+				
+				// 记录搜索词频
+				//搜索关键字
+				$tb_sear     = new IModel('search');
+				$search_info = $tb_sear->getObj('keyword = "'.$this->word.'"','id');
+				//如果是第一页，相应关键词的被搜索数量才加1
+				if($search_info && $page < 2 ){
+					//禁止刷新+1
+					$allow_sep = "30";
+					$flag = false;
+					$time = ICookie::get('step');
+					if(isset($time)){
+						if (time() - $time > $allow_sep){
+							ICookie::set('step',time());
+							$flag = true;
+						}
+					}else{
+						ICookie::set('step',time());
+						$flag = true;
+					}
+					if($flag){
+						$tb_sear->setData(array('num'=>'num + 1'));
+						$tb_sear->update('id='.$search_info['id'],'num');
+					}
+				}elseif( !$search_info ){
+					//如果数据库中没有这个词的信息，则新添
+					$tb_sear->setData(array('keyword'=>$this->word,'num'=>1));
+					$tb_sear->add();
+				}
+
 			}
 				
 				
