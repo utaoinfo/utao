@@ -78,12 +78,10 @@ input:-ms-input-placeholder{color:#ccc;}
 .nav .menu .active{border-bottom: 2px solid #3EAF0E;color: #3EAF0E;font-weight: bold;}
 
 /*** Slideshow ***/
-.slideshow { background: #cccccc; height: 320px!important; margin: 0px 10px 25px; position: relative; -moz-box-shadow: 0 0 5px #888; -webkit-box-shadow: 0 0 5px#888; box-shadow: 0 0 5px #888;border: #cccccc solid 1px; overflow: hidden; }
-.slideshow img{ height: 320px;}
-.nivo-controlNav { bottom: -40px; left: 50%; margin-left: -30px; position: absolute;  }
-.nivo-controlNav .nivo-control { background: url(../images/bullets.png) no-repeat; display: block; float: left; height: 20px; text-indent: -9999px; width: 22px; }
-.nivo-controlNav .nivo-control.active { background: url(../images/bullets.png) no-repeat scroll 0 -22px; }
-
+#slideshow { background: #cccccc; height: 380px!important; margin: 0px 10px 50px; position: relative; width: 1010px; -moz-box-shadow: 0 0 5px #888; -webkit-box-shadow: 0 0 5px#888; box-shadow: 0 0 5px #888; }
+#slideshow .nivo-controlNav { bottom: -40px; left: 50%; margin-left: -30px; position: absolute;  }
+#slideshow .nivo-controlNav .nivo-control { background: url(../images/bullets.png) no-repeat; display: block; float: left; height: 20px; text-indent: -9999px; width: 22px; }
+#slideshow .nivo-controlNav .nivo-control.active { background: url(../images/bullets.png) no-repeat scroll 0 -22px; }
 /*** 列表项 ***/
 .row .column {background:#efefef;position: relative; -moz-box-shadow: 0 0 2px #ccc; -webkit-box-shadow: 0 0 2px #ccc; box-shadow: 0 0 5px #ccc; float: left; margin-left:45px;margin-bottom: 25px; width: 220px;height: 300px; }
 .row .column:hover{cursor:pointer;-moz-box-shadow: 0 0 5px #3EAF0E; -webkit-box-shadow: 0 0 5px#3EAF0E; box-shadow: 0 0 5px #3EAF0E;}

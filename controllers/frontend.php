@@ -77,6 +77,7 @@ class Frontend extends IController
 		$data['slide'] = $index_slide;
 		//$data['guide_list'] = $guide_list;
 		$data['goods_list'] = $goods_list;
+		$data['kw'] = '';
 
 		$this->setRenderData($data);
 		$this->redirect('index');
@@ -252,7 +253,6 @@ class Frontend extends IController
 				}
 
 			}
-
 
 
 			// 获取品牌id

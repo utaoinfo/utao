@@ -1,7 +1,7 @@
 <div class="main">
 	<div class="container">
 		{if:count($slide)}
-		<div id="slideshow" class="slideshow">
+		<div id="slideshow">
 			{foreach:items=$slide}
 			<a href="{$item['url']}" title="{$item['name']}" target="_blank">
 				<img src="img/no_pic.gif" data-original="{webroot:$item[img]}" alt="{$item['name']}" />
@@ -17,7 +17,7 @@
 		<div class="floor_hd color{$index}">
 			<h3><span class="name">{$category_goods['cname']}</span></h3>
 			<ul class="hotwords">
-				<li><a href="/?controller=frontend&action=glist&ids=1_{$key}_0_0_0_0">可以有更多>></a></li>
+				<li><a href="/glist.html?ids=1_{$key}_0_0_0_0">可以有更多>></a></li>
 			</ul>
 		</div>
 		<div  class="row clearfix">
@@ -34,9 +34,9 @@
 						<strong class="new_price">￥{$goods['sell_price']}</strong>
 						原价：<span class="old_price">{$goods['market_price']}</span>
 					</p>
-					<p class="brand">品牌：{$goods['bname']}</p>
-					<p class="volume">销量：{$goods['total_volume']}</p>
 				</a>
+				<p class="volume">销量：{$goods['total_volume']}</p>
+				<p class="brand">品牌：<a href="/glist.html?ids=0_0_0_0_$goods[brand_id]_0">{$goods['bname']}</a></p>
 			</div>
 			{/if}
 			{/foreach}
@@ -49,19 +49,18 @@
 </div><!-- // end #main -->
 <script type="text/javascript" src="js/jquery.nivo.slider.js"></script>
 <script type="text/javascript">
-	$(window).load(function() {
+	$(function(){
 		$(".image img").lazyload();
 
 		$(".slideshow img").lazyload({
 			load:function(){
-				$('#slideshow').nivoSlider({
-					directionNav: false,
-					directionNav:true,
-					controlNav:true
-				});
-			}
+					$('#slideshow').nivoSlider({
+						directionNav: false,
+					});
+				},
+			effect: "fadeIn",
+			threshold : 200
 		});
-		
 	});
 </script>
 

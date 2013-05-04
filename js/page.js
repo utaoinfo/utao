@@ -1,9 +1,9 @@
 $(function(){
 	// 搜索框
 	showKeyWord();
-	setInterval(function(){
+	/*setInterval(function(){
 		showKeyWord();
-	},5*1000);
+	},5*1000);*/
 	
 	$('#kwInput').blur(function(){
 		var kwValue = $(this).val();
@@ -37,12 +37,12 @@ $(function(){
 	});
 
 	// 热词
-	showHotWords();
+	/*showHotWords();
 	setInterval(function(){
 		showHotWords();
-	},50*1000);
+	},50*1000);*/
 });
-var searchUrl = "/?controller=frontend&action=glist";
+var searchUrl = "/glist.html?";
 var testInput = document.createElement("input");
 var placeholderSupport = 1;
 if(!('placeholder' in testInput))
@@ -50,8 +50,9 @@ if(!('placeholder' in testInput))
 
 // 搜索词显示
 function showKeyWord(){
+	var keyword = "搜索 商品/品牌"
 	if( typeof(keyword)!='undefined' && keyword ){
-		placeholder = Base.decode(keyword);
+		placeholder = decodeURIComponent(keyword);
 	}
 	if(!placeholder){
 		if(typeof(KEYWORDS)=='undefined' || $('#kwInput:focus').size()>0)
@@ -83,7 +84,7 @@ function showHotWords(){
 		if(!hwIndexArr.hwIndex && KEYWORDS[hwIndex]){
 			hwIndexArr[i] = hwIndex;
 			hotWord = KEYWORDS[hwIndex];
-			hotLinks += separator+'<a href="'+searchUrl+'&kwInput='+encodeURIComponent(hotWord)+'" target="_blank" title="'+hotWord+'" >'+hotWord+'</a>';
+			hotLinks += separator+'<a href="'+searchUrl+'kwInput='+encodeURIComponent(hotWord)+'" target="_blank" title="'+hotWord+'" >'+hotWord+'</a>';
 			separator = '&nbsp;&nbsp;';
 			validWordNum +=1;
 		}
@@ -96,18 +97,14 @@ function showHotWords(){
 function goSearch(){
 	var kwValue = $('#kwInput').val();
 	if(!kwValue){
-		if(placeholderSupport){
-			kwValue = $('#kwInput').attr('placeholder');
-		}else{
-			kwValue = $('#kwPlaceholder').html();
-		}
+		return false;
 	}
 	// 首页新开窗口
 	if(document.location.host=='www.utao.info' && document.location.search =='' ){
-		window.open(searchUrl+'&kw='+encodeURIComponent(kwValue));
+		window.open(searchUrl+'kw='+encodeURIComponent(kwValue));
 		return false;
 	}else{
-		document.location.href = searchUrl+'&kw='+encodeURIComponent(kwValue);
+		document.location.href = searchUrl+'kw='+encodeURIComponent(kwValue);
 		return false;
 	}
 }
