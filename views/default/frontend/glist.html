@@ -86,21 +86,21 @@
 					<div class="image">
 							<img src="img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
 					</div>
-					
-					<p class="pro_price">
-						<strong class="new_price">
-							￥{$goods['sell_price']}
-							
-							{if:$goods['discount']<9.5}
-							<span style="color:grey">(</span><span style="color:green">{$goods['discount']}折</span><span style="color:grey">)</span>
-							{/if}
-						</strong>
-						<span class="old_price">￥{$goods['market_price']}</span>
-					</p>
 				</a>
+				<p class="pro_price">
+					<strong class="new_price">
+						￥{$goods['sell_price']}
+						
+						{if:$goods['discount']<9.5}
+						<span style="color:grey">(</span><span style="color:green">{$goods['discount']}折</span><span style="color:grey">)</span>
+						{/if}
+					</strong>
+					<span class="old_price">￥{$goods['market_price']}</span>
+				</p>
+				
 				<p class="name">{echo:IString::substr($goods['name'],42,'....')}</p>
 				<p class="volume">月销量：{$goods['volume']}</p>
-				<p class="brand">品牌：<a href="/glist.html?ids=0_0_0_0_{$goods['brand_id']}_0&kw={$kw}">{$goods['bname']}</a></p>
+				<p class="brand">品牌：<a href="/blist.html?bid={$goods['brand_id']}">{$goods['bname']}</a></p>
 				<p class="gobuy"><a href="/buy.html?gid={$goods['id']}" title="去看看" target="_blank">去看看</a></p>
 			</div>
 			{/foreach}
