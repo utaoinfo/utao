@@ -43,7 +43,7 @@
 				
 				<p class="name">{echo:IString::substr($goods['name'],42,'....')}</p>
 				<p class="volume">月销量：{$goods['volume']}</p>
-				<p class="brand">品牌：<a href="/blist/{$goods['brand_id']}.html">{$goods['bname']}</a></p>
+				<p class="brand">品牌：<a title="{$goods['bname']}" href="/blist/{$goods['brand_id']}.html">{$goods['bname']}</a></p>
 				<p class="gobuy"><a href="/buy/{$goods['id']}.html" title="去看看" target="_blank">去看看</a></p>
 			</div>
 			{/if}
