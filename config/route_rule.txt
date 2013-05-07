@@ -1,0 +1,6 @@
+rewrite ^/buy/(\d+)\.html$ /index.php?controller=frontend&action=buy&gid=$1 last;    
+
+rewrite ^/blist/(.*)\.html$ /index.php?controller=frontend&action=blist&ids=$1 last; 
+
+rewrite ^/glist\.html$ /index.php?controller=frontend&action=glist last;   
+rewrite ^/glist/(.*)\.html$ /index.php?controller=frontend&action=glist&ids=$1 last;        

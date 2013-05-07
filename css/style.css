@@ -46,7 +46,7 @@ a:hover {color: #3EAF0E;text-decoration: underline;}
 
 /*** 搜索search ***/
 .z_btn_bf, .z_txtwrap, .z_s_l, .z_s_r{background: url(../img/spr_icon.png) no-repeat;}
-.z_b_wrap{ width:450px; height:41px; margin:18px auto 0;overflow:hidden;}
+.z_b_wrap{ width:450px; height:41px; margin:18px auto 0;overflow:hidden;float: right;}
 .z_txtwrap{ float:left; width:335px; height:41px; background-position:0 -126px; background-repeat:repeat-x; position:relative; overflow:hidden;}
 .z_input_lab{ position:absolute;left:18px; top:11px;_top:12px; font-size:14px; color:#bfbfbf;z-index:1;}
 .z_s_l,.z_s_r{ width:15px; height:41px;}
@@ -73,7 +73,7 @@ input:-ms-input-placeholder{color:#ccc;}
 .nav{ height: 40px; background:#e4e4e4; border-bottom: 1px solid #d9d9d9;border-top: 2px solid #3EAF0E;}
 .nav .menu { margin: 0; font-size: 14px;}
 .nav .menu li { float: left; margin: 0px 0px 0px 25px; }
-.nav .menu li a{text-decoration:none;color: #444; display: inline-block;vertical-align: top;height: 38px;line-height:38px;}
+.nav .menu li a{text-decoration:none;color: #444; display: inline-block;vertical-align: top;height: 37px;line-height:37px;}
 .nav .menu li a:hover {text-decoration:none; border-bottom: 3px solid #3EAF0E;color: #3EAF0E;}
 .nav .menu .active{border-bottom: 2px solid #3EAF0E;color: #3EAF0E;font-weight: bold;}
 
@@ -88,7 +88,7 @@ input:-ms-input-placeholder{color:#ccc;}
 .row .column .last { margin-left: 0px; }
 .row .column a{text-decoration: none;}
 .row .column p{padding: 5px;}
-.row .column .volume,.name,.from,.brand{position: absolute;}
+.row .column .volume,.name,.from,.brand,.gobuy{position: absolute;}
 .row .column .from{left:0px;top: 0px;background:#3EAF0E;height: 18px;color: #FFF; }
 .row .column .name{left:0;bottom: 0px;width: 210px;height:40px;filter: alpha(opacity=0);-khtml-opacity: 0;-moz-opacity: 0;opacity: 0;background: #efefef;border-top: 1px solid rgba(0, 0, 0, 0.1);-webkit-transition: all 0.3s ease-out;-moz-transition: all 0.3s ease-out;transition: all 0.3s ease-out;}
 .row .column:hover .name{height: 40px;bottom: 80px;filter: alpha(opacity=1);-khtml-opacity: 1;-moz-opacity: 1;opacity:1;}
@@ -96,10 +96,12 @@ input:-ms-input-placeholder{color:#ccc;}
 .row .column .image img{ height:220px;width:220px;}
 .row .column .pro_price {color: #636362;}
 .row .column .pro_price .new_price {color:#FF4500;font-size: 18px;font-weight: normal;margin: 0 2px 0 0;}
-.row .column .pro_price .old_price {text-decoration: line-through;float: right;}
+.row .column .pro_price .old_price {text-decoration: line-through;}
 .row .column .volume{left:0px;bottom: 25px;}
 .row .column .brand{left:0px;bottom: 2px;}
-.row .column .gobuy{left:100px;bottom: 1px;}
+.row .column .brand a{text-decoration: underline;}
+.row .column .brand a:hover{text-decoration: underline;}
+.row .column .gobuy{left:130px;bottom: 1px;}
 .row .column .gobuy a{width:80px;height:30px;line-height:30px;font-size:14px;color: #fff;display: block;background: url("../img/spr_icon.png") no-repeat;background-position: 0 -169px;float: right;text-align: center;}
 .row .column .gobuy a:hover{background-position: 0 -199px;}
 .row .column .sub_tip {color: #F58A00;}

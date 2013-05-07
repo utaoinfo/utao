@@ -14,16 +14,16 @@
 						<dt>类别：</dt>
 						<dd>
 							<dl>
-								<dt><strong><a href="/glist.html?ids={$top_cid}_{$second_cid}_0_{$forth_cid}_{$bid}_{$prid}&kw={$kw}&sort={$sort}">全部</a></strong></dt>
+								<dt><strong><a title="" href="/glist/{$top_cid}_{$second_cid}_0_{$forth_cid}_{$bid}_{$prid}_{$sort}.html{if:$kw}?kw={$kw}{/if}">全部</a></strong></dt>
 								{foreach:items=$subcat item=$cat}
 
-								<dd><a href="/glist.html?ids={$top_cid}_{$second_cid}_{$cat['id']}_{$forth_cid}_{$bid}_{$prid}&kw={$kw}&sort={$sort}" >{$cat['name']}</a></dd>
+								<dd><a title="" href="/glist/{$top_cid}_{$second_cid}_{$cat['id']}_{$forth_cid}_{$bid}_{$prid}_{$sort}.html{if:$kw}?kw={$kw}{/if}" >{$cat['name']}</a></dd>
 
 								{/foreach}
 							</dl>
 						</dd>
 						{if:count($subcat)>15}
-						<p class="more_cats"><strong><a href="javascript:;" >展开↓</a></strong></p>
+						<p class="more_cats"><strong><a title="" href="javascript:;" >展开↓</a></strong></p>
 						{/if}
 					</dl>
 					{/if}
@@ -33,15 +33,15 @@
 						<dt>品牌：</dt>
 						<dd>
 							<dl>
-								<dt><strong><a href="/glist.html?kw={$kw}&ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_0_{$prid}&sort={$sort}">全部</a></strong></dt>
+								<dt><strong><a title="" href="/glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_0_{$prid}_{$sort}.html{if:$kw}?kw={$kw}{/if}">全部</a></strong></dt>
 								{foreach:items=$brands item=$brand}
-								<dd><a href="/glist.html?ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$brand['id']}_{$prid}&kw={$kw}&sort={$sort}" >{$brand['name']}</a></dd>
+								<dd><a title="" href="/glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$brand['id']}_{$prid}_{$sort}.html{if:$kw}?kw={$kw}{/if}" >{$brand['name']}</a></dd>
 								{/foreach}
 								
 							</dl>
 						</dd>
 						{if:count($brands)>15}
-						<p class="more_cats"><strong><a href="javascript:;" >展开↓</a></strong></p>
+						<p class="more_cats"><strong><a title="" href="javascript:;" >展开↓</a></strong></p>
 						{/if}
 					</dl>
 					{/if}
@@ -51,11 +51,11 @@
 						<dt>价格：</dt>
 						<dd>
 							<dl>
-								<dt><strong><a href="/glist.html?ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0&kw={$kw}&sort={$sort}" >全部</a></strong></dt>
+								<dt><strong><a title="" href="/glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0_{$sort}.html{if:$kw}?kw={$kw}{/if}" >全部</a></strong></dt>
 								{foreach:items=$price_range item=$range}
 								{if:$key!=0}
 								{set:$currentRange= $range-1;}
-								<dd><a href="/glist.html?ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$key}&kw={$kw}&sort={$sort}" >{$lastRange}-{$currentRange}</a></dd>
+								<dd><a title="" href="/glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$key}_{$sort}.html{if:$kw}?kw={$kw}{/if}" >{$lastRange}-{$currentRange}</a></dd>
 								{/if}
 								{set:$lastRange=$range}
 								{/foreach}
@@ -72,9 +72,9 @@
 		<div style="display:;">
 			<!-- 排序选择 -->
 			<ul class="sort clearfix">	
-				<li class="tabitem"><a {if:$sort==0}class="active"{/if} href="/glist.html?ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0&kw={$kw}" target="_self">默认排序</a></li>	
-				<li class="tabitem"><a  {if:$sort==1}class="active"{/if} href="/glist.html?ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0&kw={$kw}&sort=1"  target="_self">销量高→底</a></li>	
-				<li class="tabitem"><a  {if:$sort==2}class="active"{/if} href="/glist.html?ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0&kw={$kw}&sort=2"  target="_self">折扣多→少</a></li>
+				<li class="tabitem"><a title="" {if:$sort==0}class="active"{/if} href="/glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0.html{if:$kw}?kw={$kw}{/if}" target="_self">默认排序</a></li>	
+				<li class="tabitem"><a title="" {if:$sort==1}class="active"{/if} href="/glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0_1.html{if:$kw}?kw={$kw}{/if}"  target="_self">销量高→底</a></li>	
+				<li class="tabitem"><a title="" {if:$sort==2}class="active"{/if} href="/glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_0_2.html{if:$kw}?kw={$kw}{/if}"  target="_self">折扣多→少</a></li>
 			</ul>
 		</div>
 		<div class="pagination" style="margin-top:20px;margin-bottom:20px;"></div>
@@ -82,9 +82,9 @@
 			{foreach:items=$goods_list item=$goods}
 			<div class="column" {if:$key%4==0} style="margin-left:0;"{/if}>
 				<p class="from" style="display:none;">{$goods['bname']}</p>
-				<a href="/buy.html?gid={$goods['id']}" title="{$goods['name']}" target="_blank">
+				<a title="" href="/buy/{$goods['id']}.html" title="{$goods['name']}" target="_blank">
 					<div class="image">
-							<img src="img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
+							<img src="{webroot:}img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
 					</div>
 				</a>
 				<p class="pro_price">
@@ -100,8 +100,8 @@
 				
 				<p class="name">{echo:IString::substr($goods['name'],42,'....')}</p>
 				<p class="volume">月销量：{$goods['volume']}</p>
-				<p class="brand">品牌：<a href="/blist.html?bid={$goods['brand_id']}">{$goods['bname']}</a></p>
-				<p class="gobuy"><a href="/buy.html?gid={$goods['id']}" title="去看看" target="_blank">去看看</a></p>
+				<p class="brand">品牌：<a title="" href="/blist/{$goods['brand_id']}.html">{$goods['bname']}</a></p>
+				<p class="gobuy"><a href="/buy/{$goods['id']}.html" title="去看看" target="_blank">去看看</a></p>
 			</div>
 			{/foreach}
 		</div>
@@ -120,11 +120,11 @@
 
 <script type="text/javascript">
 $(function(){
-	$('.menu').find('a[href*="ids={$top_cid}_{$second_cid}_"]').addClass('active');
+	$('.menu').find('a[href*="glist/{$top_cid}_{$second_cid}_"]').addClass('active');
 	$('#catBox').find('a').removeClass('active');
-	$('#brands').find('a[href*="ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}"]').addClass('active');
-	$('#price').find('a[href*="ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}"]').addClass('active');
-	$('#subcat').find('a[href*="ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}"]').addClass('active');
+	$('#brands').find('a[href*="glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}"]').addClass('active');
+	$('#price').find('a[href*="glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}"]').addClass('active');
+	$('#subcat').find('a[href*="glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}"]').addClass('active');
 	$('.more_cats').unbind('click').click(function(){
 		var parent = $(this).parent();
 		if(parent.hasClass('less')){
@@ -148,7 +148,7 @@ $(function(){
 		images					: false,
 		mouse					: 'press',
 		onChange				: function(page){
-			document.location.href = "/glist.html?ids={$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}&kw={$kw}&sort={$sort}&page="+(page-1);
+			document.location.href = "/glist/{$top_cid}_{$second_cid}_{$third_cid}_{$forth_cid}_{$bid}_{$prid}_{$sort}_"+(page-1)+".html{if:$kw}?kw={$kw}{/if}";
 
 			return false;
 		}

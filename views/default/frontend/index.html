@@ -17,7 +17,7 @@
 		<div class="floor_hd color{$index}">
 			<h3><span class="name">{$category_goods['cname']}</span></h3>
 			<ul class="hotwords">
-				<li><a href="/glist.html?ids=1_{$key}_0_0_0_0">可以有更多>></a></li>
+				<li><a href="/glist/1_{$key}_0_0_0_0.html">可以有更多>></a></li>
 			</ul>
 		</div>
 		<div  class="row clearfix">
@@ -27,7 +27,7 @@
 				<p class="from" style="display:none;">{$goods['bname']}</p>
 				<a href="/buy.html?gid={$goods['id']}" title="{$goods['name']}" target="_blank">
 					<div class="image">
-							<img src="img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
+							<img src="{webroot:}img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
 					</div>
 				</a>
 				<p class="pro_price">
@@ -43,8 +43,8 @@
 				
 				<p class="name">{echo:IString::substr($goods['name'],42,'....')}</p>
 				<p class="volume">月销量：{$goods['volume']}</p>
-				<p class="brand">品牌：<a href="/blist.html?bid={$goods['brand_id']}">{$goods['bname']}</a></p>
-				<p class="gobuy"><a href="/buy.html?gid={$goods['id']}" title="去看看" target="_blank">去看看</a></p>
+				<p class="brand">品牌：<a href="/blist/{$goods['brand_id']}.html">{$goods['bname']}</a></p>
+				<p class="gobuy"><a href="/buy/{$goods['id']}.html" title="去看看" target="_blank">去看看</a></p>
 			</div>
 			{/if}
 			{/foreach}
@@ -60,11 +60,10 @@
 	$(function(){
 		$('.menu a').eq(0).addClass('active');
 		$(".image img").lazyload();
-
 		$("#slideshow img").lazyload({
 			load:function(){
 					$('#slideshow').nivoSlider({
-						directionNav: false,
+						directionNav: false
 					});
 				},
 			effect: "fadeIn",

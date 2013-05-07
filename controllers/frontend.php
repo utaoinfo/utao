@@ -95,32 +95,26 @@ class Frontend extends IController
 	*/
 	public function glist(){
 		
-		$ids = IFilter::act(IReq::get('ids'));
-		if($ids){
-			$arr_ids = explode('_', $ids);
-			$top_cid = intval($arr_ids[0]);
-			$second_cid = intval($arr_ids[1]);
-			$third_cid = intval($arr_ids[2]);
-			$forth_cid = intval($arr_ids[3]);
-			$bid = intval($arr_ids[4]);
-			$prid = intval($arr_ids[5]);
-		}else{
-			$top_cid = 0;
-			$second_cid = 0;
-			$third_cid = 0;
-			$forth_cid = 0;
-			$bid = 0;
-			$prid = 0;
-		}
-			
 		$word = IFilter::act(IReq::get('kw'));
-		$page = IFilter::act(IReq::get('page'),'int');
+		$ids = IFilter::act(IReq::get('ids'),'string');
+		$arr_ids = $ids ? explode('_', $ids) : array();
+
+		$top_cid = isset($arr_ids[0]) ? intval($arr_ids[0]) : 0 ;
+		$second_cid = isset($arr_ids[1]) ? intval($arr_ids[1]) : 0 ;
+		$third_cid = isset($arr_ids[2]) ? intval($arr_ids[2]) : 0 ;
+		$forth_cid = isset($arr_ids[3]) ? intval($arr_ids[3]) : 0 ;
+		$bid = isset($arr_ids[4]) ? intval($arr_ids[4]) : 0 ;
+		$prid = isset($arr_ids[5]) ? intval($arr_ids[5]) : 0 ;
+
+		$sort = isset($arr_ids[6]) ? intval($arr_ids[6]) : 0 ;
+		$page = isset($arr_ids[7]) ? intval($arr_ids[7]) : 0 ;
+
 		$pagesize = $this->site_config['list_num'];
-		$sort = IFilter::act(IReq::get('sort'),'int');
 		$order_by  = $this->sort_type_map[$sort] ? $this->sort_type_map[$sort] : "{$this->tablePre}goods.sort ASC";
 		$start = $page*$pagesize;
 
 		$all_goods_list = array();
+		$total_num = array();
 		$goods_list = array();
 		$data = array();
 		$brands = array();
@@ -134,6 +128,7 @@ class Frontend extends IController
 			$cids = '';
 			if($third_cid){
 				$cids = Block::getCategroy($third_cid);
+
 			}elseif($second_cid){
 				$cids = Block::getCategroy($second_cid);
 			}elseif($top_cid){
@@ -186,17 +181,30 @@ class Frontend extends IController
 			if($prid>0){
 				$where .= " AND {$this->tablePre}goods.sell_price>=".$this->site_config['price_range'][$prid-1] ." AND  {$this->tablePre}goods.sell_price<=".$this->site_config['price_range'][$prid];
 			}
-			// 取商品总数
+			// 取所有商品基本信息
 			$sql  = "SELECT DISTINCT({$this->tablePre}goods.id),{$this->tablePre}goods.brand_id,{$this->tablePre}category.parent_id,{$this->tablePre}category.name as cname,{$this->tablePre}category.id as cid FROM {$this->tablePre}goods
 					LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}category_extend.goods_id={$this->tablePre}goods.id
 					LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category.id={$this->tablePre}category_extend.category_id
 					WHERE {$all_where}";
 			$all_goods_list = $categoryObj->query_sql($sql); 
 
+			// 取分页总数
+			$sql = "SELECT DISTINCT({$this->tablePre}goods.id) FROM {$this->tablePre}goods
+					LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}category_extend.goods_id={$this->tablePre}goods.id
+					LEFT JOIN {$this->tablePre}category ON {$this->tablePre}category.id={$this->tablePre}category_extend.category_id
+					WHERE {$where}";
+			$total_num = $categoryObj->query_sql($sql); 
+
 			$fields = " DISTINCT({$this->tablePre}goods.id),{$this->tablePre}category.parent_id,{$this->tablePre}goods.*,{$this->tablePre}category.id as cid,{$this->tablePre}brand.name as bname ";
 			if($word && !$cids){
 				$fields .= ",{$this->tablePre}category.name as cname";
 			}
+
+			if(!$cids && $third_cid){
+				
+				$where .= " AND {$this->tablePre}category_extend.category_id=({$third_cid})";
+			}
+
 			// 获取商品列表
 			$sql = "SELECT {$fields} FROM {$this->tablePre}goods
 					LEFT JOIN {$this->tablePre}category_extend ON {$this->tablePre}category_extend.goods_id={$this->tablePre}goods.id
@@ -275,9 +283,7 @@ class Frontend extends IController
 				$bids_string = implode(',',$bids);
 				$sql = "SELECT * FROM {$this->tablePre}brand WHERE id IN($bids_string) ORDER BY {$this->tablePre}brand.sort ASC";
 				$brands =  $categoryObj->query_sql($sql);
-				
 			}
-			
 		}
 		
 		$data['goods_list'] = $goods_list;
@@ -297,9 +303,9 @@ class Frontend extends IController
 		$data['subcat']  = count($subcat)>0 ? $subcat : '';
 		$data['page'] = $page;
 		$data['pagesize'] = $pagesize;
-		$data['goodsNum'] = count($all_goods_list);
+		$data['goodsNum'] = count($total_num);
 
-		$data['title'] = $cname." 优淘(utao.info)商品列表";
+		$data['title'] = $cname." 优加(ujia.info)商品列表";
 		$data['description'] = '';
 		$data['keywords'] = '';
 	
@@ -310,11 +316,20 @@ class Frontend extends IController
 
 	public function blist(){
 		$data = array();
+		$ids =  IFilter::act(IReq::get('ids'));
+	if($ids){
+		$arr_ids = explode('_', $ids);
+		$bid = isset($arr_ids[0]) ? intval($arr_ids[0]) : 0;
+		$sort = isset($arr_ids[1]) ? intval($arr_ids[1]) : 0;
+		$page = isset($arr_ids[2]) ? intval($arr_ids[2]) : 0;
+	}else{
 		$bid = IFilter::act(IReq::get('bid'));
 		$page = IFilter::act(IReq::get('page'),'int');
+		$sort = IFilter::act(IReq::get('sort'),'int');
+	}
 		$pagesize = $this->site_config['list_num'];
 		$start = $page*$pagesize;
-		$sort = IFilter::act(IReq::get('sort'),'int');
+		
 		$order_by  = $this->sort_type_map[$sort] ? $this->sort_type_map[$sort] : "{$this->tablePre}goods.sort ASC";
 		
 
@@ -343,7 +358,7 @@ class Frontend extends IController
 				$goods_list =  $tb_goods->query_sql($sql);
 		}
 
-		$data['title'] = '';
+		$data['title'] =  count($goods_list)>0 ? '品牌'.$goods_list[0]['bname'].'商品列表' : '';
 		$data['description'] = '';
 		$data['keywords'] = '';
 		$data['goods_list'] = $goods_list;
@@ -367,6 +382,7 @@ class Frontend extends IController
 	*/
 	public function buy(){
 		$gid = IFilter::act(IReq::get('gid'),'int');
+
 		$tb_goods = new IModel('goods');
 		//增加点击次数
 		if(!ISafe::get('visit'.$gid)){
@@ -376,7 +392,7 @@ class Frontend extends IController
 			ISafe::set('click'.$gid,'1');
 		}
 		$goodsRow = $tb_goods->getObj('ID = '.$gid,'url');
-		if($goodsRow['url']){
+		if(count($goodsRow)>0 && $goodsRow['url']){
 			header("Location:".$goodsRow['url']);
 		}else{
 			header("Location:/");

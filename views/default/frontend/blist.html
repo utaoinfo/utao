@@ -8,9 +8,9 @@
 		<div style="display:;">
 			<!-- 排序选择 -->
 			<ul class="sort clearfix">	
-				<li class="tabitem"><a {if:$sort==0}class="active"{/if} href="/blist.html?bid={$bid}" target="_self">默认排序</a></li>	
-				<li class="tabitem"><a  {if:$sort==1}class="active"{/if} href="/blist.html?bid={$bid}&sort=1"  target="_self">销量高→底</a></li>	
-				<li class="tabitem"><a  {if:$sort==2}class="active"{/if} href="/blist.html?bid={$bid}&sort=2"  target="_self">折扣多→少</a></li>
+				<li class="tabitem"><a title="" {if:$sort==0}class="active"{/if} href="/blist/{$bid}.html" target="_self">默认排序</a></li>	
+				<li class="tabitem"><a title=""  {if:$sort==1}class="active"{/if} href="/blist/{$bid}_1.html"  target="_self">销量高→底</a></li>	
+				<li class="tabitem"><a title=""  {if:$sort==2}class="active"{/if} href="/blist/{$bid}_2.html"  target="_self">折扣多→少</a></li>
 			</ul>
 		</div>
 		<div class="pagination" style="margin-top:20px;margin-bottom:20px;"></div>
@@ -18,9 +18,9 @@
 			{foreach:items=$goods_list item=$goods}
 			<div class="column" {if:$key%4==0} style="margin-left:0;"{/if}>
 				<p class="from" style="display:none;">{$goods['bname']}</p>
-				<a href="/buy.html?gid={$goods['id']}" title="{$goods['name']}" target="_blank">
+				<a href="/buy/{$goods['id']}.html" title="{$goods['name']}" target="_blank">
 					<div class="image">
-							<img src="img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
+							<img src="{webroot:}img/no_pic.gif" data-original="{$goods['list_img']}" alt="{$goods['name']}" />
 					</div>
 				</a>
 				<p class="pro_price">
@@ -36,19 +36,15 @@
 				
 				<p class="name">{echo:IString::substr($goods['name'],42,'....')}</p>
 				<p class="volume">月销量：{$goods['volume']}</p>
-				<p class="brand">品牌：<a href="javascript:;">{$goods['bname']}</a></p>
-				<p class="gobuy"><a href="/buy.html?gid={$goods['id']}" title="去看看" target="_blank">去看看</a></p>
+				<p class="brand">品牌：<a title="" href="javascript:;">{$goods['bname']}</a></p>
+				<p class="gobuy"><a href="/buy/{$goods['id']}.html" title="去看看" target="_blank">去看看</a></p>
 			</div>
 			{/foreach}
 		</div>
 		<div class="pagination"></div>
 		{else:}
 		<div style="height:300px;line-height:300px;text-align:center;">
-			{if:$prid}
-			该价格范围下没有商品，建议您修改搜索条件</a>
-			{else:}
-			该分类下没有商品，您可以去 <a href="/" target="_self" title="首页看看"><b>首页看看~</b></a>
-			{/if}
+			没有改品牌的商品，您可以去 <a href="/" target="_self" title="首页看看"><b>首页看看~</b></a>
 		</div>
 		{/if}
 	</div>
@@ -69,8 +65,7 @@ $(function(){
 		images					: false,
 		mouse					: 'press',
 		onChange				: function(page){
-			document.location.href = "/blist.html?bid={$bid}&sort={$sort}&page="+(page-1);
-
+			document.location.href = "/blist/{$bid}_{$sort}_"+(page-1)+".html";
 			return false;
 		}
 	});
