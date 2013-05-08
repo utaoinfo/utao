@@ -13,6 +13,7 @@ class Tools extends IController
 	{
 		$checkObj = new CheckRights($this);
 		$checkObj->checkAdminRights();
+		$this->tablePre = isset(IWeb::$app->config['DB']['tablePre']) ? IWeb::$app->config['DB']['tablePre'] : '';
 	}
 
 	public function seo_sitemaps()
@@ -21,12 +22,12 @@ class Tools extends IController
 		$url = IUrl::getHost().IUrl::creatUrl("");
 		$date = date('Y-m-d').'T'.date('H:i:s').'+00:00';
 		$maps = array(
-			array('loc'=>$url.'sitemap_goods.xml','lastmod'=>$date),
-			array('loc'=>$url.'sitemap_article.xml','lastmod'=>$date)
+			array('loc'=>$url.'sitemap_blist.xml','lastmod'=>$date),
+			array('loc'=>$url.'sitemap_glist.xml','lastmod'=>$date)
 			);
 		$siteMaps->create($maps,$url.'sitemaps.xsl');
-		$this->seo_items('goods');
-		$this->seo_items('article');
+		$this->seo_items('blist');
+		$this->seo_items('glist');
 		$this->redirect('seo_sitemaps');
 	}
 	public function seo_items($item)
@@ -34,34 +35,37 @@ class Tools extends IController
 		$weburl = IUrl::getHost().IUrl::creatUrl("");
 		switch($item)
 		{
-			case 'goods':
-			{
-				$query = new IQuery('goods');
-				$url = '/site/products/id/';
-				$query->fields="concat('$url',id) as loc,create_time as lastmod";
-				$items = $query->find();
 
+			case 'blist':
+			{
+				$query = new IQuery('brand');
+				$query->fields="id";
+				$items = $query->find();
+				$lastmod = date('Y-m-d');
 				//对url进行处理
 				foreach($items as $key => $val)
 				{
-					$items[$key]['loc'] = IUrl::getHost().IUrl::creatUrl($val['loc']);
+					$items[$key]['loc'] = IUrl::getHost().'/blist/'.$val['id'].'.html';
+					$items[$key]['lastmod'] = $lastmod;
 				}
-				SiteMaps::create_map($items,'sitemap_goods.xml',$weburl.'sitemaps.xsl');
-				break;
+				SiteMaps::create_map($items,'sitemap_blist.xml',$weburl.'sitemaps.xsl');
 			}
-			case 'article':
+			case 'glist':
 			{
-				$query = new IQuery('article');
-				$url = '/site/article_detail/id/';
-				$query->fields="concat('$url',id) as loc,create_time as lastmod";
-				$items = $query->find();
+				$lastmod = date('Y-m-d');
+				// 获取二级类
+				$categoryObj = new IModel('category');
 
+				// 获取前四个分类
+				$sql  = "SELECT id,name,parent_id FROM {$this->tablePre}category WHERE parent_id IN (SELECT id FROM {$this->tablePre}category WHERE parent_id=-1 ) ";
+				$items =  $categoryObj->query_sql($sql);
 				//对url进行处理
 				foreach($items as $key => $val)
 				{
-					$items[$key]['loc'] = IUrl::getHost().IUrl::creatUrl($val['loc']);
+					$items[$key]['loc'] = IUrl::getHost().'/glist/'.$val['parent_id'].'_'.$val['id'].'.html';
+					$items[$key]['lastmod'] = $lastmod;
 				}
-				SiteMaps::create_map($items,'sitemap_article.xml',$weburl.'sitemaps.xsl');
+				SiteMaps::create_map($items,'sitemap_glist.xml',$weburl.'sitemaps.xsl');
 			}
 		}
 
