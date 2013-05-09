@@ -107,8 +107,8 @@ input:-ms-input-placeholder{color:#ccc;}
 .row .column .sub_tip {color: #F58A00;}
 
 /*分割线*/
-.floor_hd {position: relative;overflow: hidden;height: 40px;border-bottom: 2px solid #3EAF0E;margin-bottom: 10px;margin-top: 20px;}
-.floor_hd h3 {display: block;text-align: left;font-size: 1.17em;-webkit-margin-before: 1em;-webkit-margin-after: 1em;-webkit-margin-start: 0px;-webkit-margin-end: 0px;font-weight: bold;position: absolute;bottom: 15px;left: 0;}
+.floor_hd {position: relative;overflow: hidden;height: 30px;border-bottom: 0;margin-bottom: 10px;margin-top: 10px;}
+.floor_hd h3 {display: block;text-align: left;font-size: 1.17em;-webkit-margin-before: 1em;-webkit-margin-after: 1em;-webkit-margin-start: 0px;-webkit-margin-end: 0px;font-weight: bold;position: absolute;bottom: 8px;left: 0;}
 .floor_hd .name {display: inline-block;width: 82px;height: 18px;margin-right: 3px;font: 400 20px/20px "微软雅黑E\8F6F\96C5\9ED1",Arial;}
 
 .color1{border-bottom-color: #33B5E5;color: #33B5E5;}
@@ -116,8 +116,9 @@ input:-ms-input-placeholder{color:#ccc;}
 .color3{border-bottom-color: #FFAD2D;color: #FFAD2D;}
 .color4{border-bottom-color: #B782E3;color: #B782E3;}
 .color5{border-bottom-color: #3EAF0E;color: #3EAF0E;}
-.hotwords {position: absolute;bottom: 10px;right: -5px;}
-.hotwords li {float: left;padding: 0 8px;border-right: 1px #444 solid;color: #444;font-family: Tahoma;}
+.floor_hd .line{display: inline-block;position: absolute;left: 95px;bottom: 10px;width: 821px;height: 10px;border-bottom: 2px #FF4949 solid;}
+.floor_hd .hotwords {position: absolute;bottom: 4px;right: -5px;}
+.floor_hd .hotwords li {float: left;padding: 0 8px;border-right: 1px #444 solid;color: #444;font-family: Tahoma;}
 
 /*** Footer ***/
 .footer { background: #e4e4e4; border-top: 1px solid #d9d9d9; height: 46px; }
