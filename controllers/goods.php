@@ -1166,6 +1166,7 @@ class Goods extends IController
 					'sort'		=>	$info['sort'],
 					'visibility'=>	$info['visibility'],
 					'keywords'	=>	$info['keywords'],
+					'title'		=>	$info['title'],
 					'descript'	=>	$info['descript']
 				);
 			}

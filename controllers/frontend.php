@@ -120,6 +120,10 @@ class Frontend extends IController
 		$brands = array();
 		$subcat = array();
 		$cname = '';
+		$title = '';
+		$description = '';
+		$keywords = '';
+
 		if($top_cid || $second_cid || $word){
 			$categoryObj = new IModel('category');
 
@@ -195,7 +199,11 @@ class Frontend extends IController
 					WHERE {$where}";
 			$total_num = $categoryObj->query_sql($sql); 
 
-			$fields = " DISTINCT({$this->tablePre}goods.id),{$this->tablePre}category.parent_id,{$this->tablePre}goods.*,{$this->tablePre}category.id as cid,{$this->tablePre}brand.name as bname ";
+			$fields = " DISTINCT({$this->tablePre}goods.id),
+						{$this->tablePre}category.parent_id,
+						{$this->tablePre}goods.*,
+						{$this->tablePre}category.id as cid,
+						{$this->tablePre}brand.name as bname ";
 			if($word && !$cids){
 				$fields .= ",{$this->tablePre}category.name as cname";
 			}
@@ -219,9 +227,19 @@ class Frontend extends IController
 
 			// 获取二级类的名称
 			if($second_cid){
-				$sql = "SELECT id,name FROM {$this->tablePre}category WHERE id={$second_cid} ORDER BY {$this->tablePre}category.sort ASC";
+				$sql = "SELECT id,name,title,keywords,descript 
+						FROM {$this->tablePre}category 
+						WHERE id={$second_cid} 
+						ORDER BY {$this->tablePre}category.sort ASC";
 				$second_catinfo = $categoryObj->query_sql($sql);
-				$cname = count($second_catinfo )>0 ? $second_catinfo[0]['name'] : '';
+
+
+				if(count($second_catinfo )>0){
+					$cname = $second_catinfo[0]['name'];
+					$title = $second_catinfo[0]['title'] ? '【'.$cname.'】' .$second_catinfo[0]['title'] : '' ;
+					$description = $second_catinfo[0]['descript'];
+					$keywords = $second_catinfo[0]['keywords'];
+				}
 
 				// 获取3级类
 				$sql  = "SELECT id,name FROM {$this->tablePre}category WHERE parent_id={$second_cid} ORDER BY {$this->tablePre}category.sort ASC";
@@ -305,9 +323,9 @@ class Frontend extends IController
 		$data['pagesize'] = $pagesize;
 		$data['goodsNum'] = count($total_num);
 
-		$data['title'] = $cname." 优加(ujia.info)商品列表";
-		$data['description'] = '';
-		$data['keywords'] = '';
+		$data['title'] = $title ? $title : '【'.$cname.'】' .'商品列表-优加网(ujia.info)';
+		$data['description'] = $description;
+		$data['keywords'] = $keywords;
 	
 		$this->setRenderData($data);
 		$this->redirect('glist');
