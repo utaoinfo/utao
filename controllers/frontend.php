@@ -105,8 +105,9 @@ class Frontend extends IController
 		$forth_cid = isset($arr_ids[3]) ? intval($arr_ids[3]) : 0 ;
 		$bid = isset($arr_ids[4]) ? intval($arr_ids[4]) : 0 ;
 		$prid = isset($arr_ids[5]) ? intval($arr_ids[5]) : 0 ;
-
+		$prid = $prid> count($this->site_config['price_range'])-1 ? count($this->site_config['price_range'])-1 : $prid;
 		$sort = isset($arr_ids[6]) ? intval($arr_ids[6]) : 0 ;
+		$sort = $sort> (count($this->sort_type_map)-1) ? count($this->sort_type_map)-1 : $sort;
 		$page = isset($arr_ids[7]) ? intval($arr_ids[7]) : 0 ;
 
 		$pagesize = $this->site_config['list_num'];
@@ -335,16 +336,17 @@ class Frontend extends IController
 	public function blist(){
 		$data = array();
 		$ids =  IFilter::act(IReq::get('ids'));
-	if($ids){
-		$arr_ids = explode('_', $ids);
-		$bid = isset($arr_ids[0]) ? intval($arr_ids[0]) : 0;
-		$sort = isset($arr_ids[1]) ? intval($arr_ids[1]) : 0;
-		$page = isset($arr_ids[2]) ? intval($arr_ids[2]) : 0;
-	}else{
-		$bid = IFilter::act(IReq::get('bid'));
-		$page = IFilter::act(IReq::get('page'),'int');
-		$sort = IFilter::act(IReq::get('sort'),'int');
-	}
+		if($ids){
+			$arr_ids = explode('_', $ids);
+			$bid = isset($arr_ids[0]) ? intval($arr_ids[0]) : 0;
+			$sort = isset($arr_ids[1]) ? intval($arr_ids[1]) : 0;
+			$page = isset($arr_ids[2]) ? intval($arr_ids[2]) : 0;
+		}else{
+			$bid = IFilter::act(IReq::get('bid'));
+			$page = IFilter::act(IReq::get('page'),'int');
+			$sort = IFilter::act(IReq::get('sort'),'int');
+		}
+		$sort = $sort> (count($this->sort_type_map)-1) ? count($this->sort_type_map)-1 : $sort;
 		$pagesize = $this->site_config['list_num'];
 		$start = $page*$pagesize;
 		

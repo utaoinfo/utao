@@ -12,7 +12,7 @@ class Error extends IController
 	function error404()
 	{
 		$data = '当前要访问的文件不存在';
-		$this->redirect('/site/error?msg='.urlencode($data));
+		$this->redirect('/404.html');
 	}
 
 	function error403($data)

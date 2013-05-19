@@ -168,3 +168,7 @@ background-color: #3EAF0E;color: white;text-decoration: none;}
 .jPaginate ul.jPag-pages li{display:inline;float:left;padding:0px;margin:0px;}
 .jPaginate ul.jPag-pages li a{float:left;padding:2px 10px;}
 .jPaginate span.jPag-current{ cursor:default; font-weight:normal; line-height:15px;height:18px;padding:2px 10px;margin:2px;float:left;}
+
+
+/*** 404  ***/
+.nofound {height:180px;line-height:180px;font-weight: bold;font-size: 30px;text-align: center;}
