@@ -67,6 +67,23 @@ class Tools extends IController
 				}
 				SiteMaps::create_map($items,'sitemap_glist.xml',$weburl.'sitemaps.xsl');
 			}
+			case 'article':
+			{
+				$lastmod = date('Y-m-d');
+				// 获取二级类
+				$categoryObj = new IModel('category');
+
+				// 获取前四个分类
+				$sql  = "SELECT id FROM {$this->tablePre}article WHERE 1 ";
+				$items =  $categoryObj->query_sql($sql);
+				//对url进行处理
+				foreach($items as $key => $val)
+				{
+					$items[$key]['loc'] = IUrl::getHost().'/article/'.$val['id'].'.html';
+					$items[$key]['lastmod'] = $lastmod;
+				}
+				SiteMaps::create_map($items,'sitemap_article.xml',$weburl.'sitemaps.xsl');
+			}
 		}
 
 	}

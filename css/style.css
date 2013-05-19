@@ -172,3 +172,6 @@ background-color: #3EAF0E;color: white;text-decoration: none;}
 
 /*** 404  ***/
 .nofound {height:180px;line-height:180px;font-weight: bold;font-size: 30px;text-align: center;}
+
+/*** article ***/
+.articleTitle{font-size: 20px;font-weight: bold;text-align: center;border-bottom: 1px solid #999;padding-bottom: 15px;}

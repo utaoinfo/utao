@@ -419,4 +419,35 @@ class Frontend extends IController
 		}
 	}
 
+	//咨询详情页面
+	public function article() {
+		$data = array();
+		$this->article_id = IFilter::act(IReq::get('id'),'int');
+		if($this->article_id == ''){
+			IError::show(404,'缺少咨询ID参数');
+		}else{
+			$articleObj       = new IModel('article');
+			$this->articleRow = $articleObj->getObj('id = '.$this->article_id);
+			if(empty($this->articleRow)){
+				IError::show(404,'资讯文章不存在');
+				exit;
+			}
+
+			//关联商品
+			$relationObj = new IQuery('relation as r');
+			$relationObj->join   = ' left join goods as go on r.goods_id = go.id ';
+			$relationObj->where  = ' r.article_id = '.$this->article_id.' and go.id is not null ';
+
+			$this->relationList  = $relationObj->find();
+			$data['articleRow'] = $this->articleRow;
+			$data['title'] = count($this->articleRow)>0 ? $this->articleRow['title'] : '';
+			$data['description'] = count($this->articleRow)>0 ? $this->articleRow['description'] : '';
+			$data['keywords'] = count($this->articleRow)>0 ? $this->articleRow['keywords'] : '';
+			$data['kw'] = '';
+			$this->setRenderData($data);
+			$this->redirect('article');
+		}
+	}
+
+
 }

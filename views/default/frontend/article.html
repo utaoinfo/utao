@@ -1,0 +1,22 @@
+<div class="main">
+	<div class="container">
+		{if:$articleRow}
+			<h3 class="articleTitle">{$articleRow['title']}</h3>
+		{/if}
+	
+		<div id="itemContainer" class="row clearfix">
+			{if:$articleRow}
+			<h3>{$articleRow['content']}</h3>
+			{/if}
+			
+		</div>
+		
+	</div>
+</div><!-- // end #main -->
+
+<script type="text/javascript">
+$(function(){
+
+
+});
+</script>
