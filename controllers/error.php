@@ -11,7 +11,6 @@ class Error extends IController
 {
 	function error404()
 	{
-		$data = '当前要访问的文件不存在';
 		$this->redirect('/404.html');
 	}
 
