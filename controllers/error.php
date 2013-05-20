@@ -11,7 +11,7 @@ class Error extends IController
 {
 	function error404()
 	{
-		$this->redirect('/404.html');
+		header("Location:http://ujia.info/404.html");
 	}
 
 	function error403($data)
